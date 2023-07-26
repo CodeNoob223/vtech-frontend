@@ -1,0 +1,378 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ze00os');
+  src:  url('fonts/icomoon.eot?ze00os#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ze00os') format('truetype'),
+    url('fonts/icomoon.woff?ze00os') format('woff'),
+    url('fonts/icomoon.svg?ze00os#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  /* speak: never; */
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* background-color: black; */
+  /* height: 18px; */
+  /* width: 18px; */
+  /* font-size: 18px; */
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"].medium-icon, [class*=" icon-"].medium-icon {
+  transform: translate(1.5px,1.5px);
+  /* background-color: black; */
+  height: 22px;
+  width: 22px;
+  font-size: 22px;
+}
+
+[class^="icon-"].small-icon, [class*=" icon-"].small-icon {
+  transform: translateY(0px);
+  /* background-color: black; */
+  height: 16px;
+  width: 16px;
+  font-size: 16px;
+}
+
+[class^="icon-"].small2-icon, [class*=" icon-"].small2-icon {
+  transform: translateY(0px);
+  /* background-color: black; */
+  height: 18px;
+  width: 18px;
+  font-size: 18px;
+  transform: translateY(3px);
+}
+
+[class^="icon-"].tiny-icon, [class*=" icon-"].tiny-icon {
+  transform: translateY(1.12px);
+  /* background-color: black; */
+  height: 12px;
+  width: 12px;
+  font-size: 12px;
+}
+
+.icon-behance-Logo {
+  background: url("icons/mediaLogos/BehanceLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-steam-Logo {
+  background: url("icons/mediaLogos/SteamLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-discord-Logo {
+  background: url("icons/mediaLogos/DiscordLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-github-Logo {
+  background: url("icons/mediaLogos/GithubLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-instargram-Logo {
+  background: url("icons/mediaLogos/InstargramLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-linkedin-Logo {
+  background: url("icons/mediaLogos/LinkedInLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-pinterest-Logo {
+  background: url("icons/mediaLogos/PinterestLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-soundcloud-Logo {
+  background: url("icons/mediaLogos/SoundcloudLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-tiktok-Logo {
+  background: url("icons/mediaLogos/TiktokLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-zalo-Logo {
+  background: url("icons/mediaLogos/ZaloLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-yahoomail-Logo {
+  background: url("icons/mediaLogos/YahoomailLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-youtube-Logo {
+  background: url("icons/mediaLogos/YoutubeLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-twitter-Logo {
+  background: url("icons/mediaLogos/twitterLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-google-Logo {
+  background: url("icons/mediaLogos/googleLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-facebook-Logo {
+  background: url("icons/mediaLogos/facebookLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.icon-reddit-Logo {
+  background: url("icons/mediaLogos/redditLogo.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.icon-Api:before {
+  content: "\e932";
+}
+.icon-Article:before {
+  content: "\e933";
+}
+.icon-Aspect-ratio:before {
+  content: "\e934";
+}
+.icon-Bug-report:before {
+  content: "\e935";
+}
+.icon-Cached:before {
+  content: "\e936";
+}
+.icon-Description:before {
+  content: "\e937";
+}
+.icon-Filter-alt:before {
+  content: "\e938";
+}
+.icon-Fingerprint:before {
+  content: "\e939";
+}
+.icon-Check-circle:before {
+  content: "\e93a";
+}
+.icon-Error:before {
+  content: "\e93b";
+}
+.icon-Help:before {
+  content: "\e93c";
+}
+.icon-Highlight-off:before {
+  content: "\e93d";
+}
+.icon-Leaderboard:before {
+  content: "\e93e";
+}
+.icon-Line-style:before {
+  content: "\e93f";
+}
+.icon-Mark-as-unread1:before {
+  content: "\e940";
+}
+.icon-Note-add:before {
+  content: "\e941";
+}
+.icon-Notification-important:before {
+  content: "\e942";
+}
+.icon-Privacy-tip:before {
+  content: "\e943";
+}
+.icon-Report-problem:before {
+  content: "\e944";
+}
+.icon-Verified-user:before {
+  content: "\e945";
+}
+.icon-Content-copy:before {
+  content: "\e922";
+}
+.icon-Link:before {
+  content: "\e927";
+}
+.icon-Cloud-upload:before {
+  content: "\e92c";
+}
+.icon-File-download:before {
+  content: "\e92d";
+}
+.icon-File-upload:before {
+  content: "\e92e";
+}
+.icon-Groups:before {
+  content: "\e92f";
+}
+.icon-Keyboard-arrow-down:before {
+  content: "\e930";
+}
+.icon-Upload-file:before {
+  content: "\e931";
+}
+.icon-Bookmark-border:before {
+  content: "\e928";
+}
+.icon-Bookmark:before {
+  content: "\e929";
+}
+.icon-Hamburger:before {
+  content: "\e92a";
+}
+.icon-Laptop-chromebook:before {
+  content: "\e92b";
+}
+.icon-Access-time:before {
+  content: "\e900";
+}
+.icon-Account-circle:before {
+  content: "\e901";
+}
+.icon-Add-a-photo:before {
+  content: "\e902";
+}
+.icon-Add-comment:before {
+  content: "\e903";
+}
+.icon-Add-photo-alternate:before {
+  content: "\e904";
+}
+.icon-Arrow-right-alt:before {
+  content: "\e905";
+}
+.icon-Author:before {
+  content: "\e906";
+}
+.icon-Check:before {
+  content: "\e907";
+}
+.icon-Close:before {
+  content: "\e908";
+}
+.icon-Dashboard:before {
+  content: "\e909";
+}
+.icon-Delete:before {
+  content: "\e90a";
+}
+.icon-Dns:before {
+  content: "\e90b";
+}
+.icon-Edit-attributes:before {
+  content: "\e90c";
+}
+.icon-Edit:before {
+  content: "\e90d";
+}
+.icon-Email:before {
+  content: "\e90e";
+}
+.icon-Home:before {
+  content: "\e90f";
+}
+.icon-Keyboard-arrow-left:before {
+  content: "\e910";
+}
+.icon-Keyboard-arrow-right:before {
+  content: "\e911";
+}
+.icon-Language:before {
+  content: "\e912";
+}
+.icon-Lock:before {
+  content: "\e913";
+}
+.icon-Logout:before {
+  content: "\e914";
+}
+.icon-Mail-outline:before {
+  content: "\e915";
+}
+.icon-Mark-as-unread:before {
+  content: "\e916";
+}
+.icon-Notifications-active:before {
+  content: "\e917";
+}
+.icon-Notifications-none:before {
+  content: "\e918";
+}
+.icon-Notifications:before {
+  content: "\e919";
+}
+.icon-Payment:before {
+  content: "\e91a";
+}
+.icon-Perm-contact-calendar:before {
+  content: "\e91b";
+}
+.icon-Search:before {
+  content: "\e91c";
+}
+.icon-Send:before {
+  content: "\e91d";
+}
+.icon-Share:before {
+  content: "\e91e";
+}
+.icon-Thumb-down-outline:before {
+  content: "\e91f";
+}
+.icon-Thumb-down:before {
+  content: "\e920";
+}
+.icon-Thumb-up-outline:before {
+  content: "\e921";
+}
+.icon-Thumb-up:before {
+  content: "\e923";
+}
+.icon-Verified:before {
+  content: "\e924";
+}
+.icon-Visibility-off:before {
+  content: "\e925";
+}
+.icon-Visibility:before {
+  content: "\e926";
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  display: none;
+}
+.custom-file-input::before {
+  --primary: linear-gradient(90deg, #9859FF 0%, #3E46FF 100%);
+  --secondary: linear-gradient(90deg, #522D8F 0%, #000580 100%);
+  content: "\e902";
+  font-family: "icomoon";
+  display: inline-block;
+  background: var(--primary);
+  height: 56px;
+  width: 56px;
+  border-radius: 4px;
+  padding: 18px 10px;
+  margin-right: 8px;
+  outline: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: 36px !important;
+}
