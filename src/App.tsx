@@ -35,7 +35,7 @@ import MostViews from "./routes/views/MostViews";
 import Latests from "./routes/views/Latests";
 import Certified from "./routes/views/Certified";
 
-export const localhostIP = "192.168.0.102";
+export const localhostIP = "192.168.0.105";
 
 export default function App() {
   const user: User = useAppSelector((state: RootState) => state.userData);

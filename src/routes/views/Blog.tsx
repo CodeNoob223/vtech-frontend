@@ -50,7 +50,7 @@ export default function Blog() {
 
     const accessToken = await getToken("access");
 
-    await postRequest(`http://${localhostIP}:3001/api/comment/${blogData._id}`, accessToken, {
+    await postRequest(`http://${localhostIP}:3001/api/comment/${blogData._id}`, accessToken || "", {
       blogAuthor: blogData.author._id,
       content: userComment.current,
       createAt: formatDate(new Date())
@@ -76,7 +76,7 @@ export default function Blog() {
 
     const accessToken = await getToken("access");
 
-    await putRequest<Blog>(`http://${localhostIP}:3001/api/blog/vote?id=${blogData._id}&method=${type}`, accessToken, {})
+    await putRequest<Blog>(`http://${localhostIP}:3001/api/blog/vote?id=${blogData._id}&method=${type}`, accessToken || "", {})
       .then((res) => {
         setBlogData(prev => {
           return {
@@ -100,7 +100,7 @@ export default function Blog() {
     }
 
     const accessToken = await getToken("access");
-    await putRequest<Blog>(`http://${localhostIP}:3001/api/comment/vote?id=${commentId}&method=${type}`, accessToken, {
+    await putRequest<Blog>(`http://${localhostIP}:3001/api/comment/vote?id=${commentId}&method=${type}`, accessToken || "", {
       blogid: blogData._id
     })
     .then(res => {
@@ -119,7 +119,7 @@ export default function Blog() {
     }
 
     const accessToken = await getToken("access");
-    await putRequest(`http://${localhostIP}:3001/api/interact/bookmark?id=${blogData._id}`, accessToken, {})
+    await putRequest(`http://${localhostIP}:3001/api/interact/bookmark?id=${blogData._id}`, accessToken || "", {})
     .then(res => {
       if (res?.message === "Bookmark removed!") {
         setHasBookmarked(false);
@@ -149,7 +149,7 @@ export default function Blog() {
     }
 
     const accessToken = await getToken("access");
-    await putRequest(`http://${localhostIP}:3001/api/interact/follow?id=${userId}`, accessToken, {})
+    await putRequest(`http://${localhostIP}:3001/api/interact/follow?id=${userId}`, accessToken || "", {})
     .then(res => {
       if (res?.message === "Unfollowed!") {
         setHasFollowed(false);

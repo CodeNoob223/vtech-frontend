@@ -1,6 +1,6 @@
 type tokenOption = "access" | "refresh";
 
-export default async function getToken(option : tokenOption = "access") {
+export default async function getToken(option : tokenOption = "access") : Promise<string> {
   if (option === "access") {
     const accessToken :string = await JSON.parse(localStorage.getItem("token") as string);
     return accessToken || "";
@@ -8,5 +8,7 @@ export default async function getToken(option : tokenOption = "access") {
   else if (option === "refresh") {
     const refreshToken :string = await JSON.parse(localStorage.getItem("refreshToken") as string);
     return refreshToken || "";
+  } else {
+    return "";
   }
 }

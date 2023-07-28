@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const localhostIP = "192.168.0.102";
+const localhostIP = "192.168.0.105";
 const URL = `http://${localhostIP}:3001`;
 const socket = io(URL, { autoConnect: false });
 
