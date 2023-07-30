@@ -1,56 +1,71 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { closeNotification } from "../../features/pageNotification/pageNotificationSlice";
+import { useAppDispatch } from "../../app/hook";
 
 type MessageBox = {
+    id: string
     content: string,
     messageType?: "bg-success" | "bg-error" | "bg-warning" | "bg-normal",
     onClose?: () => void
 }
 
-export default function MessageBox({ content = "Placeholder message", messageType = "bg-error", onClose }: MessageBox) {
-    const [message, setMessage] = useState<{ content: string, messageType: MessageBox["messageType"] }>({
-        content,
-        messageType,
-    });
-    const progressBar = useRef<HTMLDivElement>(null);
-    const self = useRef<HTMLDivElement>(null);
+export default function MessageBox({ id, content = "Placeholder message", messageType = "bg-error", onClose }: MessageBox) {
+    const [exit, setExit] = useState(false);
+    const [width, setWidth] = useState(0);
+    const [intervalID, setIntervalID] = useState<NodeJS.Timer>();
+    const dispatch = useAppDispatch();
 
-    const unMount = () => {
-        if (self.current?.tagName !== undefined) {
-            if (onClose !== undefined) {
-                onClose();
-            }
-            self.current.classList.add("hidden");
-        }
-    }
+    const handleStartTimer = () => {
+        const idq = setInterval(() => {
+            setWidth(prev => {
+                if (prev < 100) {
+                    return prev + 0.5;
+                }
+
+                clearInterval(id);
+                return prev;
+            });
+        }, 20);
+
+        setIntervalID(idq);
+    };
+
+    const handlePauseTimer = () => {
+        clearInterval(intervalID);
+    };
+
+    const handleCloseNotification = () => {
+        handlePauseTimer();
+        setExit(true);
+        setTimeout(() => {
+            dispatch(closeNotification(id))
+        }, 500)
+    };
 
     useEffect(() => {
-        if (self.current) {
-            setMessage({ content, messageType });
-            setTimeout(() => {
-                let id = setInterval(frame, content.length * 3);
-                let width = 1;
-                function frame() {
-                    if (progressBar.current) {
-                        if (width >= 100) {
-                            clearInterval(id);
-                            unMount();
-                        }
-                        else {
-                            width++;
-                            progressBar.current.style.width = width + "%";
-                        }
-                    }
-                }
-            }, 600);
+        if (width === 100) {
+            // Close notification
+            handleCloseNotification()
         }
-    }, [content, messageType]);
+    }, [width])
+
+    useEffect(() => {
+        handleStartTimer();
+    }, []);
 
     return (
-        <div className={`message-box h-[42px] ${message.messageType} z-50 rounded-md px-3 py-2 w-max flex fixed top-14 overflow-hidden`} ref={self}>
-            <p className="text-white mr-2">{message.content}</p>
+        <div
+            onMouseEnter={handlePauseTimer}
+            onMouseLeave={handleStartTimer}
+            className={`${exit ? "message-box-leave" : "message-box-enter"} h-[42px] ${messageType} rounded px-3 py-2 w-max flex overflow-hidden`}
+        >
+            <p className="text-white mr-2">{content}</p>
             <span className="icon-Close cursor-pointer text-white translate-y-1"
-                onClick={() => {unMount();}}></span>
-            <div className="progress-bar absolute w-0 h-1 bottom-0 left-0" ref={progressBar}></div>
+                onClick={() => {
+                    handleCloseNotification();
+                    if (onClose) onClose();
+                }}></span>
+            <div className="bg-slate-50 opacity-70 absolute w-0 h-1 bottom-0 left-0" style={{ width: `${width}%` }}></div>
         </div>
     )
 } 

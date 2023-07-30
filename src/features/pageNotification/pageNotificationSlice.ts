@@ -1,23 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { v4 as uuidv4 } from 'uuid';
 
-export const pageNotificationSlice = createSlice({
+export const pageNotificationSlice = createSlice({  
   name: 'pageNotification',
-  initialState: {
-    show: false,
-    message: "",
-    type: "bg-error" 
-  } as PageNotification,
+  initialState: [] as PageNotification[],
   reducers: {
-    updateNotification: (state : PageNotification, action : PayloadAction<PageNotification>) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state = action.payload;
+    updateNotification: (state : PageNotification[], action : PayloadAction<PageNotification>) => {
+      const newNotif : PageNotification = {
+        id: uuidv4(),
+        show: action.payload.show,
+        type: action.payload.type,
+        message: action.payload.message
+      }
+      state.push(newNotif);
       return state;
     },
-    closeNotification: (state : PageNotification) => {
-      state.show = false;
+    closeNotification: (state : PageNotification[], action : PayloadAction<string>) => {
+      state = state.filter(notif => action.payload !== notif.id);
       return state;
     }
   }

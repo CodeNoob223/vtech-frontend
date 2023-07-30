@@ -36,7 +36,7 @@ export default function Main() {
       setIsBottom(true);
       skip.current += 4;
 
-      getRequest<Blog[]>(`http://${localhostIP}:3001/api/blog/all?limit=4&skip=${skipping}`).then(res => {
+      getRequest<Blog[]>(`${localhostIP}/api/blog/all?limit=4&skip=${skipping}`).then(res => {
         if (res.data.length > 0) {
           setPageData(data => {
             return {
@@ -55,7 +55,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    getRequest<MainPageData>(`http://${localhostIP}:3001/api/blog/main?limit=4`, "", {}, true).then(res => {
+    getRequest<MainPageData>(`${localhostIP}/api/blog/main?limit=4`, "", {}, true).then(res => {
       setPageData(res as MainPageData);
       setIsLoading(false);
     });

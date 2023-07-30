@@ -65,6 +65,7 @@ declare global {
   }
 
   type PageNotification = {
+    id?: string,
     type: "bg-error" | "bg-success" | "bg-normal" | "bg-warning",
     show: boolean,
     message?: string

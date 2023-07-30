@@ -1,59 +1,31 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
-import "easymde/dist/easymde.min.css";
-import axios from "axios";
-import MessageBox from "../../components/Notification/MessageBox";
 import SmallCard from "../../components/Card/SmallCard";
 import { Helmet } from "react-helmet";
-import { useAppSelector } from "../../app/hook";
-import { localhostIP } from "../../App"; 
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { localhostIP } from "../../App";
+import { getRequest } from "../../helpers/fetchData";
+import { updateNotification } from "../../features/pageNotification/pageNotificationSlice";
 
 export default function MostViews() {
     const user = useAppSelector(state => state.userData);
-
-    const [notification, setNotification] = useState<PageNotification>({
-        show: false,
-        type: "bg-error",
-        message: ""
-    });
+    const dispatch = useAppDispatch();
 
     const [blogList, setBlogList] = useState<Blog[]>([]);
 
     const getBlogs = async () => {
-
-        try {
-            const res = await axios.get(`http://${localhostIP}:3001/api/blog/latests`, {});
-            setBlogList(res.data.data);
-        } catch (error: any) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                const { message } = error.response.data;
-                setNotification({ type: "bg-error", show: true, message });
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                setNotification({ type: "bg-error", show: true, message: error.request });
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                setNotification({ type: "bg-error", show: true, message: error.message });
-                console.log('Error', error.message);
-            }
-            console.log(error);
-        };
-
+        const res = await getRequest(`${localhostIP}/api/blog/latests`);
+        setBlogList(res.data as Blog[]);
     }
 
     const copyToClipboard = (value: string) => {
         // Copy the text inside the text field
         navigator.clipboard.writeText(value);
-        setNotification({
+        dispatch(updateNotification({
             show: true,
             type: "bg-success",
             message: "Copied url to clipboard!"
-        });
+        }));
     }
 
     useEffect(() => {
@@ -66,19 +38,6 @@ export default function MostViews() {
                 <title>{user._id && (user.notifications.length > 0) ? `(${user.notifications.length})` : ""} Latests</title>
                 <meta name="description" content="Your blogs" />
             </Helmet>
-            {notification.show &&
-                <MessageBox
-                    content={notification.message as string}
-                    key={Math.floor(Math.random() * 10).toString() + Date.now().toString()}
-                    messageType={notification.type}
-                    onClose={() => {
-                        setNotification({
-                            show: false,
-                            type: "bg-error",
-                            message: ""
-                        })
-                    }}
-                />}
             <div className="bg-secondary w-[96vw] h-max rounded-3xl mx-auto p-1 mt-[8vh] relative">
                 <div className="bg-black w-full h-full rounded-[22px] px-8 py-[60px]">
                     {/* BLOG CONTENT */}

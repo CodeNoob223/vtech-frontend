@@ -7,10 +7,9 @@ import {
 } from "react-router-dom";
 
 // import Login from "./routes/views/Login";
-const Login = lazy(() => import("./routes/views/Login"));
-const Register = lazy(() => import("./routes/views/Register"));
-const TestPage = lazy(() => import("./routes/testPage"));
 
+import Login from "./routes/views/Login";
+import Register from "./routes/views/Register";
 import Main from "./routes/views/Main";
 import Root from "./routes/root";
 import ErrorPage from "./routes/errorPage";
@@ -34,13 +33,14 @@ import MostLikes from "./routes/views/MostLikes";
 import MostViews from "./routes/views/MostViews";
 import Latests from "./routes/views/Latests";
 import Certified from "./routes/views/Certified";
+import NotificationContainer from "./components/NotificationsContainer";
 
-export const localhostIP = "192.168.0.105";
+export const localhostIP = "http://localhost:3001";
 
 export default function App() {
   const user: User = useAppSelector((state: RootState) => state.userData);
   const dispatch = useAppDispatch();
-  
+
   const axiosJWT = axios.create();
 
   socket.on("notification", async (args: string) => {
@@ -51,7 +51,7 @@ export default function App() {
     if (user !== null) {
       const accessToken = await getToken("access");
       try {
-        const res = await axios.get(`http://${localhostIP}:3001/api/interact/notification?id=${user._id}`, {
+        const res = await axios.get(`${localhostIP}/api/interact/notification?id=${user._id}`, {
           headers: {
             "auth-token": accessToken
           }
@@ -81,7 +81,7 @@ export default function App() {
     try {
       const refToken: string = await getToken("refresh") as string;
       const headers: object = { "refresh-token": refToken }
-      const res = await axios.post(`http://${localhostIP}:3001/api/user/refreshtoken`, {}, {
+      const res = await axios.post(`${localhostIP}/api/user/refreshtoken`, {}, {
         headers
       });
       const userData = res.data as { token: string, refreshToken: string };
@@ -105,7 +105,7 @@ export default function App() {
     const accessToken = await getToken("access");
     if (!user._id && accessToken) {
       try {
-        const res = await axiosJWT.get(`http://${localhostIP}:3001/api/user/getuser`, {
+        const res = await axiosJWT.get(`${localhostIP}/api/user/getuser`, {
           headers: {
             "auth-token": accessToken
           }
@@ -166,7 +166,7 @@ export default function App() {
           loader: async ({ params }) => {
             const accessToken = await getToken("access");
             try {
-              const res = await axios.get(`http://${localhostIP}:3001/api/blog?id=${params.blogId}`, {
+              const res = await axios.get(`${localhostIP}/api/blog?id=${params.blogId}`, {
                 headers: {
                   "auth-token": accessToken,
                 }
@@ -247,7 +247,7 @@ export default function App() {
           element: <Profile />,
           loader: async ({ params }) => {
             try {
-              const result = await axios.get(`http://${localhostIP}:3001/api/user/getprofile/${params.userId}`);
+              const result = await axios.get(`${localhostIP}/api/user/getprofile/${params.userId}`);
               const data = {
                 ...result.data.data,
                 recentPosts: result.data.recentPosts,
@@ -303,10 +303,6 @@ export default function App() {
           path: "/mostviews",
           element: <MostViews />
         },
-        {
-          path: "/test",
-          element: <TestPage />
-        }
       ]
     },
     {
@@ -347,6 +343,9 @@ export default function App() {
   });
 
   return (
-    <RouterProvider router={router} />
+    <>
+      <NotificationContainer />
+      <RouterProvider router={router} />
+    </>
   );
 }

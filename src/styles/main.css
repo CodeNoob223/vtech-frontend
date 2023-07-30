@@ -504,15 +504,16 @@ h4 {
   grid-area: eighth;
 }
 
-.progress-bar {
-  background-color: var(--white);
-  opacity: 0.7;
-}
-
-.message-box {
+.message-box-enter {
   right: 5%;
   opacity: 0;
-  animation: fly-in 0.5s ease-in forwards; 
+  animation: fly-in 0.4s ease-in forwards; 
+}
+
+.message-box-leave {
+  right: 5%;
+  opacity: 1;
+  animation: fly-out 0.4s ease-in forwards; 
 }
 
 a.text-category {
@@ -601,6 +602,18 @@ a.text-category:hover {
   100% {
     opacity: 1;
     transform: translateX(-2%);
+  }
+}
+
+@keyframes fly-out {
+  0% {
+    opacity: 1;
+    transform: translateX(-2%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0%);
   }
 }
 

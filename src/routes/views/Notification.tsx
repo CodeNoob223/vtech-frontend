@@ -1,98 +1,43 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
-import "easymde/dist/easymde.min.css";
-import axios from "axios";
 import getToken from "../../helpers/getLocalStorage";
-import MessageBox from "../../components/Notification/MessageBox";
 import { Helmet } from "react-helmet";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { updateUserNotification } from "../../features/userData/userSlice";
-import { localhostIP } from "../../App"; 
+import { localhostIP } from "../../App";
+import { deleteRequest, getRequest } from "../../helpers/fetchData";
+import { updateNotification } from "../../features/pageNotification/pageNotificationSlice";
 
 export default function NotificationList() {
     const user = useAppSelector(state => state.userData);
     const dispatch = useAppDispatch();
 
-    const [notification, setNotification] = useState<PageNotification>({
-        show: false,
-        type: "bg-error",
-        message: ""
-    });
-
     const [buttonPos, setButtonPos] = useState<string>("fixed bottom-[28px] right-[28px]")
 
     const handleDeleteNotification = async (id: string, option: "all" | "one") => {
         const accessToken = await getToken("access");
-        let url = `http://${localhostIP}:3001/api/interact/notification?id=${id}`;
-        if (option === "all") url = `http://${localhostIP}:3001/api/interact/allnotification?id=${id}`;
+        let url = `${localhostIP}/api/interact/notification?id=${id}`;
+        if (option === "all") url = `${localhostIP}/api/interact/allnotification?id=${id}`;
 
-        try {
-            const { data } = await axios.delete(url, {
-                headers: {
-                    "auth-token": accessToken
-                }
-            });
+        const res = await deleteRequest(url, accessToken);
 
-            setNotification({
-                type: "bg-success",
-                show: true,
-                message: data.message
-            });
+        dispatch(updateNotification({
+            type: "bg-success",
+            show: true,
+            message: res.message
+        }));
 
-            await getNotification();
-
-        } catch (error: any) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                const { message } = error.response.data;
-                setNotification({ type: "bg-error", show: true, message });
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                setNotification({ type: "bg-error", show: true, message: error.request });
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                setNotification({ type: "bg-error", show: true, message: error.message });
-                console.log('Error', error.message);
-            }
-            console.log(error);
-        };
+        await getNotification();
     }
 
     const getNotification = async () => {
         console.log("called get notification");
         if (user._id) {
             const accessToken = await getToken("access");
-            try {
-                const res = await axios.get(`http://${localhostIP}:3001/api/interact/notification?id=${user._id}`, {
-                    headers: {
-                        "auth-token": accessToken
-                    }
-                });
 
-                dispatch(updateUserNotification(res.data.data));
-            } catch (error: any) {
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    const { message } = error.response.data;
-                    setNotification({ type: "bg-error", show: true, message });
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    setNotification({ type: "bg-error", show: true, message: error.request });
-                    console.log(error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    setNotification({ type: "bg-error", show: true, message: error.message });
-                    console.log('Error', error.message);
-                }
-                console.log(error);
-            };
+            const res = await getRequest<UserNotification[]>(`${localhostIP}/api/interact/notification?id=${user._id}`, accessToken);
+
+            dispatch(updateUserNotification(res.data));
         }
     }
 
@@ -115,19 +60,7 @@ export default function NotificationList() {
                 <title>{(user.notifications.length > 1) ? `(${user.notifications.length}) Notifications` : `(${user.notifications.length}) Notification`}</title>
                 <meta name="description" content="Your blogs" />
             </Helmet>
-            {notification.show &&
-                <MessageBox
-                    content={notification.message as string}
-                    key={Math.floor(Math.random() * 10).toString() + Date.now().toString()}
-                    messageType={notification.type}
-                    onClose={() => {
-                        setNotification({
-                            show: false,
-                            type: "bg-error",
-                            message: ""
-                        })
-                    }}
-                />}
+
             <div className="bg-secondary w-[90vw] h-max rounded-3xl mx-auto p-1 mt-[8vh] relative">
                 <div className="bg-black w-full h-full rounded-[22px] px-8 py-[60px]">
                     {/* BLOG CONTENT */}

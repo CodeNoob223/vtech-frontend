@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 import { useAppSelector } from "../../app/hook";
 import { localhostIP } from "../../App";
 import { deleteRequest, getRequest, postRequest, putRequest } from "../../helpers/fetchData";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../app/hook";
 import { updateNotification } from "../../features/pageNotification/pageNotificationSlice";
 
 export default function EditBlog() {
@@ -19,7 +19,7 @@ export default function EditBlog() {
     let mdeValue = useRef<string>("");
     const user = useAppSelector(state => state.userData);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [acceptTerm, setAcceptTerm] = useState<boolean>(false);
 
@@ -62,7 +62,7 @@ export default function EditBlog() {
     useEffect(() => {
         if (user._id) {
             const fetchData = async () => {
-                const res = await getRequest<Blog>(`http://${localhostIP}:3001/api/blog?id=${blogId}`, "", {
+                const res = await getRequest<Blog>(`${localhostIP}/api/blog?id=${blogId}`, "", {
                     "userId": user._id
                 }, false);
                 const data = res.data as Blog;
@@ -136,7 +136,7 @@ export default function EditBlog() {
     }
 
     const searchCategory = async (searchString: string) => {
-        const { data } = await getRequest<Category[]>(`http://${localhostIP}:3001/api/category?name=${searchString}`);
+        const { data } = await getRequest<Category[]>(`${localhostIP}/api/category?name=${searchString}`);
         setSearchResult(prev => {
             return {
                 ...prev,
@@ -148,7 +148,7 @@ export default function EditBlog() {
     const handleDeleteBlog = async () => {
         const accessToken = await getToken("access");
 
-        const { message } = await deleteRequest(`http://${localhostIP}:3001/api/blog/${blogData._id}`, accessToken);
+        const { message } = await deleteRequest(`${localhostIP}/api/blog/${blogData._id}`, accessToken);
 
         dispatch(updateNotification({
             type: "bg-success",
@@ -165,7 +165,7 @@ export default function EditBlog() {
 
         if (checkInput(blogData.tags)) {
             if (blogData._id === "") {
-                const { message } = await postRequest(`http://${localhostIP}:3001/api/blog/`, accessToken as string,
+                const { message } = await postRequest(`${localhostIP}/api/blog/`, accessToken as string,
                     {
                         ...blogData,
                         content: mdeValue.current,
@@ -182,7 +182,7 @@ export default function EditBlog() {
                 }));
 
             } else {
-                const { message } = await putRequest(`http://${localhostIP}:3001/api/blog?id=${blogData._id}`, accessToken as string,
+                const { message } = await putRequest(`${localhostIP}/api/blog?id=${blogData._id}`, accessToken as string,
                     {
                         ...blogData,
                         content: mdeValue.current,
@@ -221,7 +221,7 @@ export default function EditBlog() {
     const handleImageDelete = async (imageId: string) => {
         const accessToken = await getToken("access");
 
-        let res = await deleteRequest(`http://${localhostIP}:3001/api/blog/removeimage/${imageId}`, accessToken);
+        let res = await deleteRequest(`${localhostIP}/api/blog/removeimage/${imageId}`, accessToken);
 
         if (blogData._id && res.data) {
             dispatch(updateNotification({
@@ -229,7 +229,7 @@ export default function EditBlog() {
                 message: res.message,
                 type: "bg-warning"
             }));
-            res = await getRequest(`http://${localhostIP}:3001/api/blog/attachimages/${blogData._id}`, accessToken as string);
+            res = await getRequest(`${localhostIP}/api/blog/attachimages/${blogData._id}`, accessToken as string);
 
             setBlogData(prev => {
                 return {
@@ -243,7 +243,7 @@ export default function EditBlog() {
     //Upload image to backend when user put image inside markdown
     const handleImageUpload = async (image: File, onSuccess: (url: string) => void, onError: (error: string) => void) => {
         const accessToken = await getToken("access");
-        let res = await postRequest(`http://${localhostIP}:3001/api/blog/uploadimage`, accessToken as string,
+        let res = await postRequest(`${localhostIP}/api/blog/uploadimage`, accessToken as string,
             {
                 image: image,
                 "blogId": blogData._id
@@ -260,7 +260,7 @@ export default function EditBlog() {
         }));
 
         if (blogData._id) {
-            let newres = await getRequest<attachedImages[]>(`http://${localhostIP}:3001/api/blog/attachimages/${blogData._id}`, accessToken as string);
+            let newres = await getRequest<attachedImages[]>(`${localhostIP}/api/blog/attachimages/${blogData._id}`, accessToken as string);
 
             setBlogData(prev => {
                 return {

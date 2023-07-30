@@ -79,7 +79,7 @@ export default function Profile() {
 
         const accessToken = await getToken("access");
 
-        await putRequest(`http://${localhostIP}:3001/api/interact/follow?id=${userId}`, accessToken as string, {})
+        await putRequest(`${localhostIP}/api/interact/follow?id=${userId}`, accessToken as string, {})
             .then(res => {
                 if (res?.message === "Unfollowed!") {
                     setHasFollowed(false);
@@ -116,7 +116,7 @@ export default function Profile() {
         if (idToRemove !== "") {
             const accessToken = await getToken("access");
 
-            const res = await deleteRequest(`http://${localhostIP}:3001/api/contact?id=${idToRemove}`, accessToken);
+            const res = await deleteRequest(`${localhostIP}/api/contact?id=${idToRemove}`, accessToken);
 
             return dispatch(updateNotification({
                 show: true,
@@ -128,7 +128,7 @@ export default function Profile() {
     }
 
     const searchContacts = async (searchString: string) => {
-        const res = await getRequest<ContactMedia[]>(`http://${localhostIP}:3001/api/contact/media?name=${searchString}`);
+        const res = await getRequest<ContactMedia[]>(`${localhostIP}/api/contact/media?name=${searchString}`);
         setSearchResult(prev => {
             return {
                 ...prev,
@@ -165,7 +165,7 @@ export default function Profile() {
                 type: "bg-error"
             }));
         }
-        const res = await putRequest(`http://${localhostIP}:3001/api/contact/`, accessToken as string, {
+        const res = await putRequest(`${localhostIP}/api/contact/`, accessToken as string, {
             contacts: contactList.map(contact => {
                 return {
                     ...contact,
@@ -195,7 +195,7 @@ export default function Profile() {
             }));
         }
 
-        const res = await putRequest(`http://${localhostIP}:3001/api/interact/updateabout`, accessToken as string, {
+        const res = await putRequest(`${localhostIP}/api/interact/updateabout`, accessToken as string, {
             about: userAbout.current
         });
 
@@ -229,7 +229,7 @@ export default function Profile() {
         }
 
 
-        const res = await putRequest(`http://${localhostIP}:3001/api/interact/updatename`, accessToken as string, {
+        const res = await putRequest(`${localhostIP}/api/interact/updatename`, accessToken as string, {
             name: userName.current
         });
 
@@ -262,7 +262,7 @@ export default function Profile() {
             }));
         }
 
-        const res = await putRequest(`http://${localhostIP}:3001/api/interact/updateprofession`, accessToken as string, {
+        const res = await putRequest(`${localhostIP}/api/interact/updateprofession`, accessToken as string, {
             profession: userProfession.current
         });
 
@@ -278,7 +278,7 @@ export default function Profile() {
 
     const saveAvatar = async () => {
         const accessToken = await getToken("access");
-        const res = await putRequest(`http://${localhostIP}:3001/api/interact/avatar`,accessToken as string, avatarData);
+        const res = await putRequest(`${localhostIP}/api/interact/avatar`,accessToken as string, avatarData);
         
         dispatch(updateNotification({
             show: true,

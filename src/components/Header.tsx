@@ -17,7 +17,7 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
 
   if (user._id) {
     return (
-      <header className="sticky z-50 top-0 grid grid-cols-3 px-[24px] mx-auto gap-4 h-15 bg-secondary-no-gr items-center">
+      <header className="sticky bg-black z-50 top-0 grid grid-cols-3 px-[24px] mx-auto gap-4 h-15 items-center">
         {
           user.notifications.length > 0 ?
             <div className="relative w-max h-max place-self-start-center">
@@ -80,7 +80,7 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
     );
   } else {
     return (
-      <header className="sticky z-50 top-0 grid grid-cols-3 px-[24px] mx-auto gap-4 h-15 bg-secondary-no-gr items-center">
+      <header className="sticky bg-black z-50 top-0 grid grid-cols-3 px-[24px] mx-auto gap-4 h-15 items-center">
         <Button
           content=""
           handleClick={() => {

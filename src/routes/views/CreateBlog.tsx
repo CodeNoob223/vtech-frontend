@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 import { useAppSelector } from "../../app/hook";
 import { localhostIP } from "../../App";
 import { getRequest, postRequest, putRequest } from "../../helpers/fetchData";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../app/hook";
 import { updateNotification } from "../../features/pageNotification/pageNotificationSlice";
 
 export default function CreateBlog() {
@@ -19,7 +19,7 @@ export default function CreateBlog() {
     const user = useAppSelector(state => state.userData);
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [acceptTerm, setAcceptTerm] = useState<boolean>(false);
 
@@ -83,11 +83,6 @@ export default function CreateBlog() {
 
     //Handle uploading cover image
     const handleUploadCover = (file: File, width: number, height: number, url: string) => {
-        dispatch(updateNotification({
-            type: "bg-error",
-            show: false,
-            message: ""
-        }));
         if (file) {
             setBlogData({
                 ...blogData,
@@ -117,7 +112,7 @@ export default function CreateBlog() {
     }
 
     const searchCategory = async (searchString: string) => {
-        const { data } = await getRequest<Category[]>(`http://${localhostIP}:3001/api/category?name=${searchString}`);
+        const { data } = await getRequest<Category[]>(`${localhostIP}/api/category?name=${searchString}`);
         setSearchResult(prev => {
             return {
                 ...prev,
@@ -135,7 +130,7 @@ export default function CreateBlog() {
         if (checkInput(blogData.tags)) {
             if (blogData._id === "") {
 
-                const res = await postRequest<string>(`http://${localhostIP}:3001/api/blog/`, accessToken as string,
+                const res = await postRequest<string>(`${localhostIP}/api/blog/`, accessToken as string,
                     {
                         ...blogData,
                         content: mdeValue.current,
@@ -145,11 +140,13 @@ export default function CreateBlog() {
                     },
                     true
                 );
-                dispatch(updateNotification({ type: "bg-success", show: true, message: res?.message }));
-                navigate(`/blog/${res.data}`);
+                if (res.success) {
+                    dispatch(updateNotification({ type: "bg-success", show: true, message: res?.message }));
+                    navigate(`/blog/${res.data}`);
+                }
 
             } else {
-                await putRequest(`http://${localhostIP}:3001/api/blog?id=${blogData._id}`, accessToken as string,
+                await putRequest(`${localhostIP}/api/blog?id=${blogData._id}`, accessToken as string,
                     {
                         ...blogData,
                         content: mdeValue.current,
@@ -183,7 +180,7 @@ export default function CreateBlog() {
     //Upload image to backend when user put image inside markdown
     const handleImageUpload = async (image: File, onSuccess: (url: string) => void, onError: (error: string) => void) => {
         const accessToken = await getToken("access");
-        let res = await postRequest(`http://${localhostIP}:3001/api/blog/uploadimage`, accessToken as string,
+        let res = await postRequest(`${localhostIP}/api/blog/uploadimage`, accessToken as string,
             {
                 image: image,
                 "blogId": blogData._id

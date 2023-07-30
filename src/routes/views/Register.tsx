@@ -1,7 +1,7 @@
 import Button from "../../components/Button/Button";
 import TextInput from "../../components/Input/TextInput";
 import FileInput from "../../components/Input/FileInput";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { localhostIP } from "../../App"; 
 import { useAppDispatch } from "../../app/hook";
@@ -34,7 +34,7 @@ export default function Register(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await postRequest(`http://${localhostIP}:3001/api/user/register`, "",
+    await postRequest(`${localhostIP}/api/user/register`, "",
       {
         ...form,
         avatar: {
@@ -42,14 +42,12 @@ export default function Register(): JSX.Element {
           top: 0,
           left: 0
         }
-      },);
+      }, true);
     dispatch(updateNotification({
       type: "bg-success",
       show: true,
       message: "Account created!"
     }));
-
-    navigate("/login");
   }
 
   const handleImageUpload = (file : File, width : number, height : number, url : string) => {

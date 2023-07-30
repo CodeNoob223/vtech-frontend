@@ -43,13 +43,13 @@ export async function getRequest<T>(api: string, authToken: string = "", additio
       }
     } else if (error.request) {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.request }));
-      console.log(error.request);
+      
       return {
         message: "Api call failed!"
       }
     } else {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.message }));
-      console.log('Error', error.message);
+      
       return {
         message: "Api call failed!"
       }
@@ -58,21 +58,24 @@ export async function getRequest<T>(api: string, authToken: string = "", additio
 }
 
 export async function postRequest<T>(api: string, authToken: string, postData: object) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function postRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function postRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean, justRes : false) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
-export async function postRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean, justRes : true) : Promise<any>;
+export async function postRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean, justRes : true) : Promise<T>;
 
 export async function postRequest<T>(api: string, authToken: string = "", postData: object, hasFile: boolean = false, justRes: boolean = false) {
   let res;
@@ -96,6 +99,7 @@ export async function postRequest<T>(api: string, authToken: string = "", postDa
       return res.data as T;
     } else {
       return {
+        success: res.data.success,
         data: res.data.data as T,
         message: res.data.message as string
       };
@@ -109,13 +113,12 @@ export async function postRequest<T>(api: string, authToken: string = "", postDa
       }
     } else if (error.request) {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.request }));
-      console.log(error.request);
       return {
         message: "Api call failed!"
       }
     } else {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.message }));
-      console.log('Error', error.message);
+      
       return {
         message: "Api call failed!"
       }
@@ -173,13 +176,12 @@ export async function putRequest<T>(api: string, authToken: string = "", data: o
       }
     } else if (error.request) {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.request }));
-      console.log(error.request);
       return {
         message: "Api call failed!"
       }
     } else {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.message }));
-      console.log('Error', error.message);
+      
       return {
         message: "Api call failed!"
       }
@@ -208,13 +210,12 @@ export async function deleteRequest<T>(api: string, authToken: string = "") {
       }
     } else if (error.request) {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.request }));
-      console.log(error.request);
       return {
         message: "Api call failed!"
       }
     } else {
       store.dispatch(updateNotification({ type: "bg-error", show: true, message: error.message }));
-      console.log('Error', error.message);
+      
       return {
         message: "Api call failed!"
       }

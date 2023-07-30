@@ -2,21 +2,16 @@ import { useState } from "react";
 import Button from "../../components/Button/Button";
 import SmallSelectCard from "../../components/Select/SmallSelectCard";
 import SmallCard from "../../components/Card/SmallCard";
-import axios from "axios";
 import { Helmet } from "react-helmet";
 import { useAppSelector } from "../../app/hook";
-import MessageBox from "../../components/Notification/MessageBox";
-import { localhostIP } from "../../App"; 
+import { localhostIP } from "../../App";
+import { getRequest } from "../../helpers/fetchData";
 
 export default function SearchPage() {
     const user = useAppSelector(state => state.userData);
     const [search, setSearch] = useState<string>("");
     const [searchResult, setSearchResult] = useState<Blog[]>([]);
-    const [notification, setNotification] = useState<PageNotification>({
-        show: false,
-        type: "bg-error",
-        message: ""
-    })
+
     const [categories, setCategories] = useState<Option[]>([
         {
             name: "Sport",
@@ -82,28 +77,8 @@ export default function SearchPage() {
     };
 
     const searchBlog = async (searchString: string) => {
-        try {
-            const { data } = await axios.get(`http://${localhostIP}:3001/api/blog/search?title=${searchString || "a"}`);
-            setSearchResult(data.data);
-        } catch (error: any) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                const { message } = error.response.data;
-                setNotification({ type: "bg-error", show: true, message });
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                setNotification({ type: "bg-error", show: true, message: error.request });
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                setNotification({ type: "bg-error", show: true, message: error.message });
-                console.log('Error', error.message);
-            }
-            console.log(error);
-        };
+        const { data } = await getRequest<Blog[]>(`${localhostIP}/api/blog/search?title=${searchString || "a"}`);
+        setSearchResult(data);
     }
 
     return (
@@ -112,14 +87,6 @@ export default function SearchPage() {
                 <title>{(user.notifications.length > 0) ? `(${user.notifications.length})` : ""} Search</title>
                 <meta name="description" content="Search for blogs" />
             </Helmet>
-            {notification.show &&
-                <MessageBox
-                    key={Math.random()}
-                    content={notification.message as string}
-                    messageType={notification.type}
-                    onClose={() => setNotification({...notification, show: false})}
-                />
-            }
             <section className="bg-primary-gradient h-[363px] pt-[72px]">
                 <div className="h-max w-max mx-auto">
                     <h1 className="text-center text-white">Search</h1>
