@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const localhostIP = "http://localhost:3001";
+const localhostIP = "https://vtech-api.onrender.com";
 const URL = localhostIP;
 const socket = io(URL, { autoConnect: false });
 

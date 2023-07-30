@@ -35,7 +35,7 @@ import Latests from "./routes/views/Latests";
 import Certified from "./routes/views/Certified";
 import NotificationContainer from "./components/NotificationsContainer";
 
-export const localhostIP = "http://localhost:3001";
+export const localhostIP = "https://vtech-api.onrender.com";
 
 export default function App() {
   const user: User = useAppSelector((state: RootState) => state.userData);
