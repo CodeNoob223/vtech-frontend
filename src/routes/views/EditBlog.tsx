@@ -243,7 +243,13 @@ export default function EditBlog() {
     //Upload image to backend when user put image inside markdown
     const handleImageUpload = async (image: File, onSuccess: (url: string) => void, onError: (error: string) => void) => {
         const accessToken = await getToken("access");
-        let res = await postRequest(`${localhostIP}/api/blog/uploadimage`, accessToken as string,
+        let data = await postRequest<{
+            success: boolean,
+            message: string,
+            data: string,
+            imageUrl: string,
+            source: string
+        }>(`${localhostIP}/api/blog/uploadimage`, accessToken as string,
             {
                 image: image,
                 "blogId": blogData._id
@@ -251,7 +257,7 @@ export default function EditBlog() {
             true,
             true
         );
-        const data = res.data;
+
         onSuccess(data.imageUrl);
         dispatch(updateNotification({
             type: "bg-success",
@@ -272,7 +278,7 @@ export default function EditBlog() {
             setBlogData(prev => {
                 return {
                     ...prev,
-                    _id: data.blogId
+                    _id: data.data
                 }
             });
         }
