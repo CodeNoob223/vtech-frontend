@@ -34,7 +34,7 @@ export default function Register(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await postRequest(`${localhostIP}/api/user/register`, "",
+    let res = await postRequest(`${localhostIP}/api/user/register`, "",
       {
         ...form,
         avatar: {
@@ -43,11 +43,17 @@ export default function Register(): JSX.Element {
           left: 0
         }
       }, true);
-    dispatch(updateNotification({
-      type: "bg-success",
-      show: true,
-      message: "Account created!"
-    }));
+
+    if (res.success) {
+      dispatch(updateNotification({
+        type: "bg-success",
+        show: true,
+        message: "Account created!"
+      }));
+      setTimeout(() => {
+        navigate("/home");
+      }, 500);
+    }
   }
 
   const handleImageUpload = (file : File, width : number, height : number, url : string) => {
