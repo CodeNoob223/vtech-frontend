@@ -34,8 +34,11 @@ import MostViews from "./routes/views/MostViews";
 import Latests from "./routes/views/Latests";
 import Certified from "./routes/views/Certified";
 import NotificationContainer from "./components/NotificationsContainer";
+import EditAccount from "./routes/views/Account";
+import { getRequest } from "./helpers/fetchData";
 
 export const localhostIP = "https://vtech-api.onrender.com";
+// export const localhostIP = "http://localhost:3001";
 
 export default function App() {
   const user: User = useAppSelector((state: RootState) => state.userData);
@@ -50,31 +53,13 @@ export default function App() {
   const getNotification = async () => {
     if (user !== null) {
       const accessToken = await getToken("access");
-      try {
-        const res = await axios.get(`${localhostIP}/api/interact/notification?id=${user._id}`, {
-          headers: {
-            "auth-token": accessToken
-          }
-        });
-        // setUserNotificationList(res.data.data);
-        dispatch(updateUserNotification(res.data.data));
-      } catch (error: any) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          const { message } = error.response.data;
-          console.log({ type: "bg-error", show: true, message });
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log({ type: "bg-error", show: true, message: error.request });
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log({ type: "bg-error", show: true, message: error.message });
-        }
-        console.log(error);
-      };
+
+      const res = await getRequest<UserNotification[]>(`${localhostIP}/api/interact/notification?id=${user._id}`, accessToken);
+      
+      if (res.success) {
+        dispatch(updateUserNotification(res.data));
+      }
+
     }
   }
   const refreshToken = async () => {
@@ -263,6 +248,15 @@ export default function App() {
         {
           path: "/notification",
           element: <NotificationList />,
+          loader: async () => {
+            const accessToken = await getToken("access");
+            if (!accessToken) return redirect("/");
+            return user;
+          }
+        },
+        {
+          path: "/accountsetting",
+          element: <EditAccount />,
           loader: async () => {
             const accessToken = await getToken("access");
             if (!accessToken) return redirect("/");

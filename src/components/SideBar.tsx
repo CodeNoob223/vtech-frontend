@@ -15,7 +15,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
   const [currentLocation, setCurrentLocation] = useState<string>("");
 
   useEffect(() => {
-    setCurrentLocation(location); 
+    setCurrentLocation(location);
   }, [location])
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Your profile"
                   to={`/profile/${user?._id}`}
-                  myStyles={currentLocation === `/profile/${user?._id}` ? "text-primary" : "bg-transparent"}
+                  myStyles={`${currentLocation === `/profile/${user?._id}` && "text-primary"} bg-transparent font-medium`}
                   icon={currentLocation === `/profile/${user?._id}` ? "icon-Account-circle text-primary" : "icon-Account-circle"}
                   iconPos="front"
                 />
@@ -68,7 +68,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Followed"
                   to="/followed"
-                  myStyles={`${currentLocation === "/followed" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/followed" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/followed" && "text-primary"} icon-Groups`}
                   iconPos="front"
                 />
@@ -78,7 +78,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                   <ButtonLink
                     content="Notification"
                     to="/notification"
-                    myStyles={`${currentLocation === "/notification" && "text-primary"} bg-transparent`}
+                    myStyles={`${currentLocation === "/notification" && "text-primary"} bg-transparent font-medium`}
                     icon={`${currentLocation === "/notification" && "text-primary"} icon-Notifications`}
                     iconPos="front"
                   />
@@ -94,8 +94,17 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Create or edit"
                   to="/yourblogs"
-                  myStyles={`${currentLocation === "/yourblogs" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/yourblogs" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/yourblogs" && "text-primary"} icon-Edit`}
+                  iconPos="front"
+                />
+              </li>
+              <li>
+                <ButtonLink
+                  content="Account"
+                  to="/accountsetting"
+                  myStyles={`${currentLocation === "/accountsetting" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/accountsetting" && "text-primary"} icon-Privacy-tip`}
                   iconPos="front"
                 />
               </li>
@@ -108,7 +117,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Bookmark"
                   to="/bookmarked"
-                  myStyles={`${currentLocation === "/bookmarked" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/bookmarked" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/bookmarked" && "text-primary"} icon-Bookmark`}
                   iconPos="front"
                 />
@@ -117,7 +126,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Latests"
                   to="/latests"
-                  myStyles={`${currentLocation === "/latests" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/latests" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/latests" && "text-primary"} icon-Access-time`}
                   iconPos="front"
                 />
@@ -126,7 +135,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Most likes"
                   to="/mostlikes"
-                  myStyles={`${currentLocation === "/mostlikes" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/mostlikes" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/mostlikes" && "text-primary"} icon-Thumb-up`}
                   iconPos="front"
                 />
@@ -135,7 +144,7 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Most views"
                   to="/mostviews"
-                  myStyles={`${currentLocation === "/mostviews" && "text-primary"} bg-transparent`}
+                  myStyles={`${currentLocation === "/mostviews" && "text-primary"} bg-transparent font-medium`}
                   icon={`${currentLocation === "/mostviews" && "text-primary"} icon-Visibility`}
                   iconPos="front"
                 />
@@ -147,8 +156,8 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                 <ButtonLink
                   content="Certified"
                   to="/certifiedblogs"
-                  myStyles="bg-transparent"
-                  icon="icon-Verified"
+                  myStyles={`${currentLocation === "/certifiedblogs" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/certifiedblogs" && "text-primary"} icon-Verified`}
                   iconPos="front"
                 />
               </li>
@@ -182,9 +191,53 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
             iconPos="back"
           />
         </section>
-        <section className="relative w-full h-full bg-black text-center text-white z-10">
-          <div className="absolute top-[35%] left-[50%] translate-x-[-50%]">
-            <p className="font-medium mb-4">You are not logged in!</p>
+        <section className="relative w-full h-full bg-black z-10">
+          <div className="text-white w-full pl-6 pt-6 pb-0">
+            <p className="text-white02 mb-2">Blogs</p>
+            <ul className="space-y-2">
+              <li>
+                <ButtonLink
+                  content="Latests"
+                  to="/latests"
+                  myStyles={`${currentLocation === "/latests" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/latests" && "text-primary"} icon-Access-time`}
+                  iconPos="front"
+                />
+              </li>
+              <li>
+                <ButtonLink
+                  content="Most likes"
+                  to="/mostlikes"
+                  myStyles={`${currentLocation === "/mostlikes" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/mostlikes" && "text-primary"} icon-Thumb-up`}
+                  iconPos="front"
+                />
+              </li>
+              <li className="relative">
+                <ButtonLink
+                  content="Most views"
+                  to="/mostviews"
+                  myStyles={`${currentLocation === "/mostviews" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/mostviews" && "text-primary"} icon-Visibility`}
+                  iconPos="front"
+                />
+                <span className="absolute pointer-events-none flex h-max w-max top-0 text-xs bg-primary text-white font-bold px-[6px] rounded-full right-[80px] animate-bounce">
+                  new
+                </span>
+              </li>
+              <li>
+                <ButtonLink
+                  content="Certified"
+                  to="/certifiedblogs"
+                  myStyles={`${currentLocation === "/certifiedblogs" && "text-primary"} bg-transparent font-medium`}
+                  icon={`${currentLocation === "/certifiedblogs" && "text-primary"} icon-Verified`}
+                  iconPos="front"
+                />
+              </li>
+            </ul>
+          </div>
+          <div className="text-white w-full pl-6 pt-6 pb-0">
+            <p className="text-white02 mb-2">Account</p>
             <div className="flex space-x-2 items-center">
               <ButtonLink
                 content="Login"

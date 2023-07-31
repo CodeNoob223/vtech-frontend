@@ -3,16 +3,19 @@ import { updateNotification } from "../features/pageNotification/pageNotificatio
 import store from "../app/store";
 
 export async function getRequest<T>(api: string) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function getRequest<T>(api: string, authToken: string) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function getRequest<T>(api: string, authToken: string , additionalHeader : object, justRes : false) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
@@ -31,6 +34,7 @@ export async function getRequest<T>(api: string, authToken: string = "", additio
     if (justRes) return res.data as T;
 
     return {
+      success: res.data.success as boolean,
       data: res.data.data as T,
       message: res.data.message as string
     };
@@ -99,7 +103,7 @@ export async function postRequest<T>(api: string, authToken: string = "", postDa
       return res.data as T;
     } else {
       return {
-        success: res.data.success,
+        success: res.data.success as boolean,
         data: res.data.data as T,
         message: res.data.message as string
       };
@@ -127,16 +131,19 @@ export async function postRequest<T>(api: string, authToken: string = "", postDa
 }
 
 export async function putRequest<T>(api: string, authToken: string, postData: object) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function putRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
 
 export async function putRequest<T>(api: string, authToken: string, postData: object, hasFile: boolean, justRes : false) : Promise<{
+  success: boolean,
   data: T,
   message: string
 }>;
@@ -164,6 +171,7 @@ export async function putRequest<T>(api: string, authToken: string = "", data: o
     if (justRes) return res.data as T;
 
     return {
+      success: res.data.success as boolean,
       data: res.data.data as T,
       message: res.data.message as string
     };
@@ -198,6 +206,7 @@ export async function deleteRequest<T>(api: string, authToken: string = "") {
     });
 
     return {
+      success: res.data.success as boolean,
       data: res.data.data as T,
       message: res.data.message as string
     };

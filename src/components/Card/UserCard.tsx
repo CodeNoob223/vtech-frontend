@@ -3,6 +3,8 @@ import Button from "../Button/Button";
 import { useAppDispatch } from "../../app/hook";
 import getToken from "../../helpers/getLocalStorage";
 import { logOutAction } from "../../features/userData/userSlice";
+import { postRequest } from "../../helpers/fetchData";
+import { localhostIP } from "../../App";
 
 type AppUserCard = {
   user: User,
@@ -13,33 +15,13 @@ export default function UserCard({ user, myStyles }: AppUserCard): JSX.Element {
   const dispatch = useAppDispatch();
   const logOut = async () => {
     const accessToken = await getToken("access");
-    try {
-      await axios.post(`http://localhost:3001/api/user/logout`, {}, {
-        headers: {
-          "auth-token": accessToken
-        }
-      });
+
+    const res = await postRequest<undefined>(`${localhostIP}/api/user/logout`, accessToken, {});
+    
+    if (res.success) {
       localStorage.clear();
       dispatch(logOutAction());
-    } catch (error: any) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        const { message } = error.response.data;
-        console.log({ type: "bg-error", show: true, message });
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log({ type: "bg-error", show: true, message: error.request });
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log({ type: "bg-error", show: true, message: error.message });
-        console.log('Error', error.message);
-      }
-      console.log(error);
-    };
+    }
   }
 
 

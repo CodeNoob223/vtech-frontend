@@ -199,6 +199,14 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: transparent;
 }
 
+.text-primary.font-bold, .text-secondary.font-bold {
+  font-weight: bolder;
+}
+
+.text-primary.font-medium, .text-secondary.font-medium {
+  font-weight: 800;
+}
+
 .text-error {
   color: var(--error);
 }
