@@ -57,10 +57,10 @@ export default function MessageBox({ id, content = "Placeholder message", messag
         <div
             onMouseEnter={handlePauseTimer}
             onMouseLeave={handleStartTimer}
-            className={`${exit ? "message-box-leave" : "message-box-enter"} h-[42px] ${messageType} rounded px-3 py-2 w-max flex overflow-hidden`}
+            className={`${exit ? "message-box-leave" : "message-box-enter"} min-h-[40px] h-max ${messageType} relative rounded px-3 py-2 w-max sm:max-w-[500px] max-w-[300px] overflow-hidden`}
         >
-            <p className="text-white mr-2">{content}</p>
-            <span className="icon-Close cursor-pointer text-white translate-y-1"
+            <p className="text-white w-full break-words h-max mr-6">{content}</p>
+            <span className="absolute right-3 text-lg top-[50%] translate-y-[-50%] icon-Close cursor-pointer text-white"
                 onClick={() => {
                     handleCloseNotification();
                     if (onClose) onClose();

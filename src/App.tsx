@@ -1,4 +1,4 @@
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -34,7 +34,6 @@ import MostViews from "./routes/views/MostViews";
 import Latests from "./routes/views/Latests";
 import Certified from "./routes/views/Certified";
 import NotificationContainer from "./components/NotificationsContainer";
-import EditAccount from "./routes/views/Account";
 import { getRequest } from "./helpers/fetchData";
 
 export const localhostIP = "https://vtech-api.onrender.com";
@@ -248,15 +247,6 @@ export default function App() {
         {
           path: "/notification",
           element: <NotificationList />,
-          loader: async () => {
-            const accessToken = await getToken("access");
-            if (!accessToken) return redirect("/");
-            return user;
-          }
-        },
-        {
-          path: "/accountsetting",
-          element: <EditAccount />,
           loader: async () => {
             const accessToken = await getToken("access");
             if (!accessToken) return redirect("/");

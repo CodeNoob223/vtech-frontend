@@ -5,12 +5,16 @@ import SmallCard from "../../components/Card/SmallCard";
 import { Helmet } from "react-helmet";
 import { useAppSelector } from "../../app/hook";
 import { localhostIP } from "../../App";
-import { getRequest } from "../../helpers/fetchData";
+import { getRequest, postRequest } from "../../helpers/fetchData";
 
 export default function SearchPage() {
     const user = useAppSelector(state => state.userData);
     const [search, setSearch] = useState<string>("");
     const [searchResult, setSearchResult] = useState<Blog[]>([]);
+    const [searchQuery, setSearchQuery] = useState({
+        categories: ["Sport"] as string[],
+        orderBy: "Latest" as string
+    });
 
     const [categories, setCategories] = useState<Option[]>([
         {
@@ -27,6 +31,9 @@ export default function SearchPage() {
             isSelect: false
         }, {
             name: "Food",
+            isSelect: false
+        }, {
+            name: "Bike",
             isSelect: false
         }
     ]);
@@ -46,6 +53,9 @@ export default function SearchPage() {
         }, {
             name: "Oldest",
             isSelect: false
+        }, {
+            name: "Most views",
+            isSelect: false
         },
     ]);
 
@@ -54,11 +64,29 @@ export default function SearchPage() {
             let newList: Option[] = prevList.map((category, index) => {
                 if (index === key) {
                     category = { ...category, isSelect: !category.isSelect }
+
+                    if (category.isSelect) {
+                        setSearchQuery(prev => {
+                            prev.categories.push(category.name)
+                            return {
+                                orderBy: prev.orderBy,
+                                categories: prev.categories
+                            }
+                        });
+                    } else {
+                        setSearchQuery(prev => {
+                            return {
+                                orderBy: prev.orderBy,
+                                categories: prev.categories.filter(cat => cat !== category.name)
+                            }
+                        });
+                    }
                 }
                 return category;
             });
             return newList;
         });
+        searchBlog(search);
     };
 
     const selectOrder = (key: number) => {
@@ -66,6 +94,10 @@ export default function SearchPage() {
             let newList: Option[] = prevList.map((order, index) => {
                 if (index === key) {
                     order = { ...order, isSelect: true }
+                    setSearchQuery({
+                        ...searchQuery,
+                        orderBy: order.name
+                    });
                 } else {
                     order = { ...order, isSelect: false }
                 }
@@ -74,11 +106,17 @@ export default function SearchPage() {
             });
             return newList;
         });
+        searchBlog(search);
     };
 
     const searchBlog = async (searchString: string) => {
-        const { data } = await getRequest<Blog[]>(`${localhostIP}/api/blog/search?title=${searchString || "a"}`);
-        setSearchResult(data);
+        const res = await postRequest<Blog[]>(`${localhostIP}/api/blog/search?title=${searchString || ""}&limit=20&skip=0`, "", {
+            categories: searchQuery.categories,
+            orderBy: searchQuery.orderBy
+        });
+        if (res.success) {
+            setSearchResult(res.data);
+        }
     }
 
     return (
@@ -140,6 +178,7 @@ export default function SearchPage() {
                             time={card.time}
                             title={card.title}
                             viewsCount={card.viewsCount as number}
+                            myStyles="max-w-[400px]"
                         />
                     })}
                 </div>

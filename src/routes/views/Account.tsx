@@ -53,16 +53,12 @@ export default function EditAccount() {
 
     return (
         <div className="relative">
-            <Helmet>
-                <title>{(user.notifications.length > 0) ? `(${user.notifications.length})` : ""} Account</title>
-                <meta name="description" content="Edit your account" />
-            </Helmet>
             <div className="bg-secondary w-[90vw] h-max rounded-3xl mx-auto p-1 mt-[8vh] relative">
-                <div className="bg-black w-full h-full rounded-[22px] px-8 py-[60px]">
+                <div className="bg-black w-full h-full rounded-[22px] sm:px-8 px-3 py-[60px]">
                     {/* BLOG CONTENT */}
                     <div className="absolute top-[-15px] sm:top-[-22px] left-7 sm:left-8 px-2 text-white bg-black">
                         <h1 className="text-[6vw] sm:text-[32px]">
-                            Account settings
+                            Change password
                         </h1>
                     </div>
 

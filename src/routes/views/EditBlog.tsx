@@ -63,8 +63,9 @@ export default function EditBlog() {
         if (user._id) {
             const fetchData = async () => {
                 const res = await getRequest<Blog>(`${localhostIP}/api/blog?id=${blogId}`, "", {
-                    "userId": user._id
+                    "userid": user._id
                 }, false);
+                console.log(res);
                 const data = res.data as Blog;
                 setBlogData({ ...data, attachedImages: data.attachedImages });
                 mdeValue.current = data.content;
@@ -249,10 +250,10 @@ export default function EditBlog() {
             data: string,
             imageUrl: string,
             source: string
-        }>(`${localhostIP}/api/blog/uploadimage`, accessToken as string,
+        }>(`${localhostIP}/api/blog/uploadimage`, accessToken,
             {
                 image: image,
-                "blogId": blogData._id
+                blogid: blogId
             },
             true,
             true
@@ -268,12 +269,15 @@ export default function EditBlog() {
         if (blogData._id) {
             let newres = await getRequest<attachedImages[]>(`${localhostIP}/api/blog/attachimages/${blogData._id}`, accessToken as string);
 
-            setBlogData(prev => {
-                return {
-                    ...prev,
-                    attachedImages: newres.data as attachedImages[]
-                }
-            });
+            if (newres.success) {
+                console.log(newres.message);
+                setBlogData(prev => {
+                    return {
+                        ...prev,
+                        attachedImages: newres.data as attachedImages[]
+                    }
+                });
+            }
         } else {
             setBlogData(prev => {
                 return {

@@ -1,4 +1,3 @@
-import axios from "axios";
 import Button from "../Button/Button";
 import { useAppDispatch } from "../../app/hook";
 import getToken from "../../helpers/getLocalStorage";
@@ -39,7 +38,7 @@ export default function UserCard({ user, myStyles }: AppUserCard): JSX.Element {
                 {user.name}
               </p>
             </a>
-            {true && <span className="icon-Verified small-icon ml-1 text-primary"></span>}
+            {user.isCertified && <span className="icon-Verified small-icon ml-1 text-primary"></span>}
           </div>
           <p className="max-w-[150px] whitespace-nowrap overflow-clip text-clip text-white02 text-sm">
             {user.profession}

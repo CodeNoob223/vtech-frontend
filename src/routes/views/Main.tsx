@@ -200,22 +200,22 @@ export default function Main() {
           <section className="overflow-x-hidden h-[360px] category-list gap-x-5 sm:gap-x-6">
             <div className="w-max flex gap-4 scroll-right">
               {pageData.categories && pageData.categories.map(category => {
-                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?tag=${category._id}`} target="_blank">{category._id}</a>
+                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?category=${category._id}`} target="_blank">{category._id}</a>
               })}
             </div>
             <div className="w-max flex gap-4 scroll-left">
               {pageData.categories && pageData.categories.reverse().map(category => {
-                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?tag=${category._id}`} target="_blank">{category._id}</a>
+                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?category=${category._id}`} target="_blank">{category._id}</a>
               })}
             </div>
             <div className="w-max flex gap-4 scroll-right">
               {pageData.categories && pageData.categories.map(category => {
-                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?tag=${category._id}`} target="_blank">{category._id}</a>
+                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?category=${category._id}`} target="_blank">{category._id}</a>
               })}
             </div>
             <div className="w-max flex gap-4 scroll-left">
               {pageData.categories && pageData.categories.reverse().map(category => {
-                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?tag=${category._id}`} target="_blank">{category._id}</a>
+                return <a key={category._id} className="text-[60px] text-category font-bold" href={`/search?category=${category._id}`} target="_blank">{category._id}</a>
               })}
             </div>
           </section>

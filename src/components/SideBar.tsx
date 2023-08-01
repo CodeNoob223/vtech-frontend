@@ -99,15 +99,6 @@ export default function SideBar({ isOpen, setIsOpen, location }: AppSideBar): JS
                   iconPos="front"
                 />
               </li>
-              <li>
-                <ButtonLink
-                  content="Account"
-                  to="/accountsetting"
-                  myStyles={`${currentLocation === "/accountsetting" && "text-primary"} bg-transparent font-medium`}
-                  icon={`${currentLocation === "/accountsetting" && "text-primary"} icon-Privacy-tip`}
-                  iconPos="front"
-                />
-              </li>
             </ul>
           </div>
           <div className="text-white w-full pl-6 pt-6 pb-0">

@@ -6,8 +6,9 @@ import BigButtonLink from "../../components/Button/BigButtonLink";
 import { Helmet } from "react-helmet";
 import { useAppDispatch } from "../../app/hook";
 import { updateData } from "../../features/userData/userSlice";
-import { localhostIP } from "../../App"; 
+import { localhostIP } from "../../App";
 import { postRequest } from "../../helpers/fetchData";
+import { updateNotification } from "../../features/pageNotification/pageNotificationSlice";
 
 type LoginError = {
   status: boolean,
@@ -30,20 +31,20 @@ export default function Login(): JSX.Element {
   const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    const res = await postRequest<{
+      token: string,
+      refreshToken: string,
+      user: User,
+      success: boolean
+    }>(`${localhostIP}/api/user/login`, "", form, false, true);
 
-      const res = await postRequest<{
-        token: string,
-        refreshToken: string,
-        user: User,
-        success: boolean
-      }>(`${localhostIP}/api/user/login`, "", form, false, true);
-      
-      if (res.success) {
-        localStorage.setItem("token", JSON.stringify(res.token));
-        localStorage.setItem("refreshToken", JSON.stringify(res.refreshToken));
-        dispatch(updateData(res.user));
-        setSuccess(true);
-      }
+    if (res.success) {
+      localStorage.setItem("token", JSON.stringify(res.token));
+      localStorage.setItem("refreshToken", JSON.stringify(res.refreshToken));
+      dispatch(updateData(res.user));
+      setSuccess(true);
+    }
 
   }
 
@@ -56,16 +57,16 @@ export default function Login(): JSX.Element {
       {success && <Navigate to="/" />}
       <div className="center w-[96vw] max-w-[1280px] h-[608px] border-gradient bg-primary rounded-3xl text-white">
         <div className="grid min-[1079px]:grid-cols-[560px_1fr] max-[1078px]:grid-cols-1 place-items-center p-6 bg-black gap-x-[56px]">
-        <img className="login-logo absolute top-[-24px] h-[50px]  bg-black px-4" src="/logo.svg" alt="v-tech logo" onClick={
+          <img className="login-logo absolute top-[-24px] h-[50px]  bg-black px-4" src="/logo.svg" alt="v-tech logo" onClick={
             () => {
               navigate("/home");
             }
-          }/>
+          } />
           <img className="max-[1079px]:hidden w-[560px] h-[560px] object-cover" src="/images/signin.png" alt="v-tech signin picture" onClick={
             () => {
               navigate("/home");
             }
-          }/>
+          } />
           <form className="relative" method="POST" aria-autocomplete="list" onSubmit={(e) => handleSubmit(e)} onKeyDown={(e) => { if (e.key === "Enter") { handleSubmit(e) } }}>
             <p className="text-center font-bold text-xl sm:text-[32px] mb-9">Welcome back, 👋</p>
             <TextInput
