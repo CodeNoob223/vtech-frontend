@@ -279,8 +279,8 @@ export default function Profile() {
 
     const saveAvatar = async () => {
         const accessToken = await getToken("access");
-        const res = await putRequest(`${localhostIP}/api/interact/avatar`,accessToken as string, avatarData);
-        
+        const res = await putRequest(`${localhostIP}/api/interact/avatar`, accessToken as string, avatarData);
+
         dispatch(updateNotification({
             show: true,
             message: res?.message,
@@ -335,7 +335,7 @@ export default function Profile() {
                                                 <p className="text-white02 min-[640px]:text-2xl text-base font-bold text-white01 sm:max-w-[40vw] max-w-[70%] overflow-hidden whitespace-nowrap">Width: <span className="font-normal text-white02">{avatarData.width || "0"} px</span></p>
                                                 <p className="text-white02 min-[640px]:text-2xl text-base font-bold text-white01 sm:max-w-[40vw] max-w-[70%] overflow-hidden whitespace-nowrap">Height: <span className="font-normal text-white02">{avatarData.height || "0"} px</span></p>
                                                 <p className="text-white02 min-[640px]:text-2xl text-base font-bold text-white01 sm:max-w-[40vw] max-w-[70%] overflow-hidden whitespace-nowrap">Size: <span className="font-normal text-white02">{avatarData.avatarFile?.size || "0"} bytes</span></p>
-                                                <Button 
+                                                <Button
                                                     content="Accept"
                                                     iconPos="back"
                                                     icon="icon-Check"
@@ -344,7 +344,7 @@ export default function Profile() {
                                                         saveAvatar();
                                                     }}
                                                 />
-                                                <Button 
+                                                <Button
                                                     content="Cancel"
                                                     iconPos="back"
                                                     icon="icon-Close"
@@ -727,6 +727,7 @@ export default function Profile() {
                                     userData.recentPosts && userData.recentPosts.length > 0 ?
                                         userData.recentPosts?.map(post => {
                                             return <SmallCard
+                                                _id={post.author._id!}
                                                 authorName={post.author.name}
                                                 blogUrl={`blog/${post._id}`}
                                                 description={post.description}
@@ -751,6 +752,7 @@ export default function Profile() {
                                     userData.likedPosts && userData.likedPosts.length > 0 ?
                                         userData.likedPosts?.map(post => {
                                             return <SmallCard
+                                                _id={post.author._id!}
                                                 authorName={post.author.name}
                                                 blogUrl={`blog/${post._id}`}
                                                 description={post.description}

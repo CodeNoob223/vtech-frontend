@@ -57,6 +57,7 @@ export default function MostViews() {
                                         className="relative items-center w-full"
                                     >
                                         <SmallCard
+                                            _id={child.author._id!}
                                             authorName={child.author.name}
                                             blogUrl={`/blog/${child._id}`}
                                             description={child.description as string}
