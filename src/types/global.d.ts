@@ -77,6 +77,7 @@ declare global {
   }
   
   type AppCard = {
+    _id: string,
     title: string,
     likesCount: number,
     time: string | "Month Date, Year",

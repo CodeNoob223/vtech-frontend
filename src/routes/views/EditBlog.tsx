@@ -137,7 +137,7 @@ export default function EditBlog() {
     }
 
     const searchCategory = async (searchString: string) => {
-        const { data } = await getRequest<Category[]>(`${localhostIP}/api/category?name=${searchString}`);
+        const { data } = await getRequest<Category[]>(`${localhostIP}/api/category?name=${searchString}&limit=6`);
         setSearchResult(prev => {
             return {
                 ...prev,

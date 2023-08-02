@@ -637,7 +637,7 @@ a.text-category:hover {
       'seventh seventh'
       'eighth eighth'
     ;
-    grid-template-rows: 36px 360px 36px 360px 36px 1fr;
+    grid-template-rows: 36px 360px 36px 360px 36px max-content;
     grid-template-columns: 570px 486px;
   }
 

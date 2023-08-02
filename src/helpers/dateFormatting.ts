@@ -7,4 +7,5 @@ export function formatDate(date : Date) {
 function padTo2Digits(num : number) {
   return num.toString().padStart(2, '0');
 }
-//console.log(formatDate(new Date()));
+
+//console.log(`${monthNames[Math.floor(Math.random() * 11)]} ${Math.floor(Math.random() * 27) + 1}, ${2000 + Math.floor(Math.random() * 20)}`);

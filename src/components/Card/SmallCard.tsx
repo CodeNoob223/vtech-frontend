@@ -1,8 +1,8 @@
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
-export default function SmallCard({title, description, likesCount, time, authorName, viewsCount, coverImage, blogUrl, myStyles} : AppCard) : JSX.Element {
-  return(
-    <motion.div 
+export default function SmallCard({ _id, title, description, likesCount, time, authorName, viewsCount, coverImage, blogUrl, myStyles }: AppCard): JSX.Element {
+  return (
+    <motion.div
       className={`grid smallCard grid-cols-smallCard h-max gap-2 sm:gap-3 rounded-2xl w-full ${myStyles}`}
       variants={{
         hidden: {
@@ -18,20 +18,22 @@ export default function SmallCard({title, description, likesCount, time, authorN
           }
         }
       }}
-      viewport={{once: true}}
+      viewport={{ once: true }}
     >
-      <img className="rounded-lg overflow-hidden w-[80px] h-[80px] sm:w-[110px] sm:h-[110px] object-cover" src={`${coverImage || "images/placeholder140x140.png"}`} alt="coverImage"/>
-    
+      <img className="rounded-lg overflow-hidden w-[80px] h-[80px] sm:w-[110px] sm:h-[110px] object-cover" src={`${coverImage || "images/placeholder140x140.png"}`} alt="coverImage" />
+
       <section className="sm:w-full w-[40vw]">
         <div className="font-medium text-white02 sm:text-lg text-sm">
           <a href={blogUrl}>{title}</a>
         </div>
-        
+
         <ul className="w-full sm:w-auto sm:flex flex-wrap flex-shrink-0 text-white03 sm:space-x-2 font-attribute my-1">
           <li className="sm:flex sm:w-max w-full">
             <div className="flex mr-2 sm:mb-0 mb-1">
               <span className="icon-Author small-icon text-primary mr-1"></span>
-              {authorName}
+              <a className="hover:text-primary" href={`/profile/${_id}`}>
+                {authorName}
+              </a>
             </div>
             <div className="flex">
               <span className="icon-Access-time small-icon text-primary mr-1"></span>

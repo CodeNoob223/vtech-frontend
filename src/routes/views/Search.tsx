@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import SmallSelectCard from "../../components/Select/SmallSelectCard";
 import SmallCard from "../../components/Card/SmallCard";
@@ -6,37 +6,24 @@ import { Helmet } from "react-helmet";
 import { useAppSelector } from "../../app/hook";
 import { localhostIP } from "../../App";
 import { getRequest, postRequest } from "../../helpers/fetchData";
+import { useSearchParams } from "react-router-dom";
 
 export default function SearchPage() {
+    const [searchParams] = useSearchParams();;
     const user = useAppSelector(state => state.userData);
     const [search, setSearch] = useState<string>("");
     const [searchResult, setSearchResult] = useState<Blog[]>([]);
-    const [searchQuery, setSearchQuery] = useState({
-        categories: ["Sport"] as string[],
-        orderBy: "Latest" as string
+    const [searchCat, setSearchCat] = useState<SearchResult<Category>>({
+        isFocus: false,
+        results: []
     });
-
-    const [categories, setCategories] = useState<Option[]>([
-        {
-            name: "Sport",
-            isSelect: true
-        }, {
-            name: "Gaming",
-            isSelect: false
-        }, {
-            name: "Progamming",
-            isSelect: false
-        }, {
-            name: "Math",
-            isSelect: false
-        }, {
-            name: "Food",
-            isSelect: false
-        }, {
-            name: "Bike",
-            isSelect: false
-        }
-    ]);
+    
+    const [categories, setCategories] = useState<Category[]>(
+    searchParams.get("category") ?    
+    [{
+        _id: searchParams.get("category") as string,
+        imageUrl: ""
+    }] : []);
     const [orderBy, setOrderBy] = useState<Option[]>([
         {
             name: "Latest",
@@ -59,45 +46,23 @@ export default function SearchPage() {
         },
     ]);
 
-    const selectCategory = (key: number) => {
-        setCategories(prevList => {
-            let newList: Option[] = prevList.map((category, index) => {
-                if (index === key) {
-                    category = { ...category, isSelect: !category.isSelect }
+    const addCategory = (value: Category) => {
+        const newCategoryList: Category[] = categories;
+        if (!newCategoryList.some(element => {
+            if (element._id === value._id) return true;
 
-                    if (category.isSelect) {
-                        setSearchQuery(prev => {
-                            prev.categories.push(category.name)
-                            return {
-                                orderBy: prev.orderBy,
-                                categories: prev.categories
-                            }
-                        });
-                    } else {
-                        setSearchQuery(prev => {
-                            return {
-                                orderBy: prev.orderBy,
-                                categories: prev.categories.filter(cat => cat !== category.name)
-                            }
-                        });
-                    }
-                }
-                return category;
-            });
-            return newList;
-        });
-        searchBlog(search);
-    };
+            return false;
+        })) {
+            newCategoryList.push(value);
+        }
+        setCategories(newCategoryList);
+    }
 
     const selectOrder = (key: number) => {
         setOrderBy(prevList => {
             let newList: Option[] = prevList.map((order, index) => {
                 if (index === key) {
                     order = { ...order, isSelect: true }
-                    setSearchQuery({
-                        ...searchQuery,
-                        orderBy: order.name
-                    });
                 } else {
                     order = { ...order, isSelect: false }
                 }
@@ -111,12 +76,26 @@ export default function SearchPage() {
 
     const searchBlog = async (searchString: string) => {
         const res = await postRequest<Blog[]>(`${localhostIP}/api/blog/search?title=${searchString || ""}&limit=20&skip=0`, "", {
-            categories: searchQuery.categories,
-            orderBy: searchQuery.orderBy
+            categories: categories.map(cat => `${cat._id}`),
+            orderBy: orderBy.filter(order => order.isSelect).map(or => `${or.name}`)
         });
         if (res.success) {
             setSearchResult(res.data);
         }
+    }
+
+    useEffect(() => {
+        searchBlog(search);
+    }, [categories]);
+
+    const searchCategory = async (searchString: string) => {
+        const { data } = await getRequest<Category[]>(`${localhostIP}/api/category?name=${searchString}&limit=6`);
+        setSearchCat(prev => {
+            return {
+                ...prev,
+                results: data as Category[]
+            }
+        });
     }
 
     return (
@@ -146,13 +125,43 @@ export default function SearchPage() {
                             handleClick={() => searchBlog(search)}
                         />
                     </div>
-                    <div className="category flex gap-x-1 mb-3 max-w-[600px] flex-wrap w-[90vw]">
+                    <div className="category flex gap-1 mb-3 max-w-[600px] flex-wrap w-[90vw] h-max items-center">
                         <p className="text-white text-[14px] mr-[4px]">Categories:</p>
                         {categories.map(
                             (category, index) => {
-                                return <SmallSelectCard key={index} handleClick={() => { selectCategory(index) }} content={category.name} select={category.isSelect} />
+                                return <SmallSelectCard key={index} handleClick={() => { setCategories(prev => prev.filter(c => c._id !== category._id)) }} content={category._id} select={true} />
                             }
                         )}
+                        <div className="flex flex-col relative">
+                            <input
+                                name="categories"
+                                autoComplete="off"
+                                type="text"
+                                className="block w-[80%] min-w-[300px] h-[24px] font-sm rounded-sm pl-2"
+                                placeholder="Add categories"
+                                onChange={async (e) => {
+                                    await searchCategory(e.target.value);
+                                }}
+                                onFocus={async (e) => {
+                                    setSearchCat(prev => { return { ...prev, isFocus: true } });
+                                    await searchCategory(e.target.value);
+                                }}
+                                onBlur={() => setTimeout(() => setSearchCat(prev => { return { ...prev, isFocus: false } }), 300)}
+                                maxLength={40}
+                            />
+                            <div className={`absolute h-max w-full max-h-[120px] lg:max-h-[320px] top-[24px] left-0 rounded-sm overflow-y-scroll z-10 cursor-pointer ${!searchCat.isFocus && "hidden"}`}>
+                                {searchCat.results.map((result: Category) => {
+                                    return (
+                                        <div key={result._id} className="h-[40px] w-full bg-slate-50 hover:bg-slate-200 pt-2 pl-2"
+                                            onClick={() => {
+                                                addCategory(result);
+                                            }}
+                                        >
+                                            {result._id}
+                                        </div>)
+                                })}
+                            </div>
+                        </div>
                     </div>
                     <div className="orderBy flex gap-x-1 max-w-[600px] flex-wrap w-[90vw]">
                         <p className="text-white text-[14px] mr-[4px]">Order by:</p>
@@ -169,6 +178,7 @@ export default function SearchPage() {
                 <div className="grid w-max mx-auto 1.5xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
                     {searchResult.map((card: Blog, index: number) => {
                         return <SmallCard
+                            _id={card.author._id!}
                             key={index}
                             coverImage={card.coverImage}
                             authorName={card.author.name}

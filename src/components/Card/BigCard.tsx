@@ -1,9 +1,9 @@
 import ButtonLink from "../Button/ButtonLink";
 import { motion } from "framer-motion";
 
-export default function BigCard({ title, description, likesCount, time, authorName, viewsCount, coverImage, blogUrl, myStyles }: AppCard): JSX.Element {
+export default function BigCard({_id, title, description, likesCount, time, authorName, viewsCount, coverImage, blogUrl, myStyles }: AppCard): JSX.Element {
   return (
-    <motion.div 
+    <motion.div
       className={`relative bigCard min-[1080px]:w-[570px] h-[360px] rounded-3xl overflow-hidden w-[85vw] md:w-full ${myStyles}`}
       variants={{
         hidden: {
@@ -35,7 +35,9 @@ export default function BigCard({ title, description, likesCount, time, authorNa
           <li className="flex">
             <div className="flex mr-2 sm:mb-0 mb-1">
               <span className="icon-Author small-icon text-primary mr-1"></span>
-              {authorName}
+              <a className="hover:text-primary" href={`/profile/${_id}`}>
+                {authorName}
+              </a>
             </div>
             <div className="flex">
               <span className="icon-Access-time small-icon text-primary mr-1"></span>

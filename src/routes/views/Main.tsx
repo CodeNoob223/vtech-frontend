@@ -31,7 +31,7 @@ export default function Main() {
     categories: []
   });
 
-  async function fetchMoreData(skipping : number) {
+  async function fetchMoreData(skipping: number) {
     if (isMore.current) {
       setIsBottom(true);
       skip.current += 4;
@@ -44,7 +44,7 @@ export default function Main() {
               latests: data.latests.concat(res.data)
             }
           });
-          
+
         } else {
           isMore.current = false;
         }
@@ -90,6 +90,7 @@ export default function Main() {
           {
             pageData.latests[0] ?
               <BigCard
+                _id={pageData.latests[0].author._id!}
                 title={pageData.latests[0].title}
                 likesCount={pageData.latests[0].likesCount}
                 time={pageData.latests[0].time}
@@ -101,6 +102,7 @@ export default function Main() {
                 coverImage={pageData.latests[0].coverImage}
               />
               : <BigCard
+                _id={""}
                 title={`Welcome to Vtech`}
                 likesCount={4}
                 time="December 26, 2021"
@@ -132,6 +134,7 @@ export default function Main() {
             {
               pageData.mostLikes && pageData.mostLikes.map(blog => {
                 return <SmallCard
+                  _id={blog.author._id!}
                   key={blog._id}
                   title={blog.title}
                   likesCount={blog.likesCount}
@@ -144,56 +147,6 @@ export default function Main() {
                 />
               })
             }
-            <SmallCard
-              title={`Sample title`}
-              likesCount={4}
-              time="December 26, 2021"
-              authorName="Dinh Hai"
-              viewsCount={4}
-              description={LoremIpsum}
-              coverImage=""
-              blogUrl="/blog/649cf06ecc6d0202f386303d"
-            />
-            <SmallCard
-              title={`Sample title 2`}
-              likesCount={4}
-              time="December 26, 2021"
-              authorName="Dinh Hai"
-              viewsCount={4}
-              description={LoremIpsum}
-              coverImage=""
-              blogUrl="/blog/649cf06ecc6d0202f386303d"
-            />
-            <SmallCard
-              title={`Sample title 3`}
-              likesCount={4}
-              time="December 26, 2021"
-              authorName="Dinh Hai"
-              viewsCount={4}
-              description={LoremIpsum}
-              coverImage=""
-              blogUrl="/blog/649cf06ecc6d0202f386303d"
-            />
-            <SmallCard
-              title={`Sample title 4`}
-              likesCount={4}
-              time="December 26, 2021"
-              authorName="Dinh Hai"
-              viewsCount={4}
-              description={LoremIpsum}
-              coverImage=""
-              blogUrl="/blog/649cf06ecc6d0202f386303d"
-            />
-            <SmallCard
-              title={`Sample title 5`}
-              likesCount={4}
-              time="December 26, 2021"
-              authorName="Dinh Hai"
-              viewsCount={4}
-              description={LoremIpsum}
-              coverImage=""
-              blogUrl="/blog/649cf06ecc6d0202f386303d"
-            />
           </motion.section>
           <h2 className="text-primary category-title">Categories</h2>
           {/* <section className="flex h-[360px] w-full overflow-x-scroll overflow-y-hidden custom-sb category-list gap-x-5 sm:gap-x-6"> */}
@@ -224,6 +177,7 @@ export default function Main() {
             {
               pageData.latests && pageData.latests.map((blog, index) => {
                 return <Card
+                  _id={blog.author._id!}
                   key={index}
                   index={index + 1}
                   coverImage={blog.coverImage}
