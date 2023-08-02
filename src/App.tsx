@@ -46,11 +46,13 @@ export default function App() {
   const axiosJWT = axios.create();
 
   socket.on("notification", async (args: string) => {
-    await getNotification();
+    if (user._id) {
+      await getNotification();
+    }
   });
 
   const getNotification = async () => {
-    if (user !== null) {
+    if (user._id) {
       const accessToken = await getToken("access");
 
       const res = await getRequest<UserNotification[]>(`${localhostIP}/api/interact/notification?id=${user._id}`, accessToken);
