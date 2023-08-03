@@ -1,19 +1,10 @@
 import Button from "./Button/Button";
 import ButtonLink from "./Button/ButtonLink";
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { useAppSelector } from "../app/hook";
 
 export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
-  const user: User = useSelector((state: RootState) => state.userData);
-
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
-  useEffect(() => {
-    window.onresize = () => {
-      setWindowWidth(window.innerWidth);
-    }
-  }, []);
+  const user: User = useAppSelector((state: RootState) => state.userData);
 
   if (user._id) {
     return (
@@ -53,28 +44,21 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
           image="/logo.svg"
           iconPos="none"
         />
-        <nav className="flex h-35px place-self-end-center w-max">
+        <nav className="flex gap-3 h-35px place-self-end-center w-max">
           <ButtonLink
             to="/write"
-            content="Write"
-            icon="icon-Edit"
-            iconPos="back"
+            content=""
+            icon="icon-Edit hover:text-primary"
+            iconPos="none"
             myStyles="hidden sm:flex"
           />
-          {(windowWidth > 643) ?
-            <ButtonLink
-              content="Search"
-              to="/search"
-              icon="icon-Search"
-              iconPos="back"
-              myStyles="searchBtn bg-primary"
-            /> : <ButtonLink
-              key={Date.now.toString()}
-              to="/search"
-              icon="icon-Search"
-              iconPos="none"
-              myStyles="searchBtn bg-primary"
-            />}
+          <ButtonLink
+            key={Date.now.toString()}
+            to="/search"
+            icon="icon-Search hover:text-primary"
+            iconPos="none"
+            myStyles="bg-transparent"
+          />
         </nav>
       </header>
     );
@@ -97,20 +81,20 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
           iconPos="none"
         />
         <nav className="flex h-35px place-self-end-center w-max">
-          {(windowWidth > 643) ?
-            <ButtonLink
-              content="Search"
-              to="/search"
-              icon="icon-Search"
-              iconPos="back"
-              myStyles="searchBtn bg-primary"
-            /> : <ButtonLink
-              key={Date.now.toString()}
-              to="/search"
-              icon="icon-Search"
-              iconPos="none"
-              myStyles="searchBtn bg-primary"
-            />}
+        <ButtonLink
+            to="/login"
+            content=""
+            icon="icon-Edit hover:text-primary"
+            iconPos="none"
+            myStyles="hidden sm:flex"
+          />
+          <ButtonLink
+            key={Date.now.toString()}
+            to="/search"
+            icon="icon-Search hover:text-primary"
+            iconPos="none"
+            myStyles="bg-transparent"
+          />
         </nav>
       </header>
     );
