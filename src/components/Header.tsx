@@ -80,8 +80,8 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
           image="/logo.svg"
           iconPos="none"
         />
-        <nav className="flex h-35px place-self-end-center w-max">
-        <ButtonLink
+        <nav className="flex h-35px place-self-end-center w-max items-center">
+          <ButtonLink
             to="/login"
             content=""
             icon="icon-Edit hover:text-primary"
@@ -95,6 +95,7 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
             iconPos="none"
             myStyles="bg-transparent"
           />
+          <a href="/login" className="text-primary font-bold ml-2 sm:block hidden">Sign in</a>
         </nav>
       </header>
     );

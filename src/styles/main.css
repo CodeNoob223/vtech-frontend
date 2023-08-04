@@ -557,6 +557,13 @@ a.text-category:hover {
   transition: all 0.3s ease-in;
 }
 
+.hover\:text-secondary:hover.font-medium ,.hover\:text-primary:hover.font-medium {
+  font-weight: 900;
+}
+.hover\:text-secondary:hover.font-bold ,.hover\:text-primary:hover.font-bold {
+  font-weight: 900;
+}
+
 .hover\:text-secondary:hover {
   background: var(--secondary);
   background-clip: text;

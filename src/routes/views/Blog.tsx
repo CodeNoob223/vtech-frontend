@@ -412,12 +412,16 @@ export default function Blog() {
             {blogData.categories.length > 0 ?
               blogData.categories.map((category) => {
                 return (
-                  <TinyButton
+                  <a href={`/search?category=${category._id}`}
                     key={category._id}
-                    iconPos="none"
-                    content={category._id}
-                    myStyles="sm:my-0 my-1 bg-secondary"
-                  />
+                    target="_blank"
+                  >
+                    <TinyButton
+                      iconPos="none"
+                      content={category._id}
+                      myStyles="sm:my-0 my-1 bg-primary hover:opacity-75"
+                    />
+                  </a>
                 );
               }) : <p className="text-sm text-white03">No category!</p>}
           </div>
