@@ -65,7 +65,7 @@ export default function BigCard({_id, title, description, likesCount, time, auth
         content="Read more"
         icon="icon-Visibility"
         iconPos="back"
-        myStyles="absolute bg-primary font-normal left-8 bottom-8"
+        myStyles="absolute bg-primary hover:bg-secondary transition-all duration-300 font-normal left-8 bottom-8"
       />
     </motion.div>
   )

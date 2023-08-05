@@ -192,11 +192,19 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: transparent;
 }
 
+.text-primary-no-gr {
+  color: var(--primary-no-gr);
+}
+
 .text-secondary {
   background: var(--secondary);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.text-secondary-no-gr {
+  color: var(--secondary-no-gr);
 }
 
 .text-primary.font-bold, .text-secondary.font-bold {
@@ -235,7 +243,7 @@ button:active {
   background-color: var(--background);
 }
 
-.bg-primary {
+.bg-primary, .hover\:bg-primary:hover {
   background: var(--primary);
 }
 
@@ -245,15 +253,15 @@ button:active {
 }
 /* DO NOT TOUCH, FOR SEARCH PAGE */
 
-.bg-primary-no-gr {
+.bg-primary-no-gr, .hover\:bg-primary-no-gr:hover {
   background: var(--primary-no-gr);
 }
 
-.bg-secondary {
+.bg-secondary, .hover\:bg-secondary:hover  {
   background: var(--secondary);
 }
 
-.bg-secondary-no-gr {
+.bg-secondary-no-gr, .hover\:bg-secondary-no-gr:hover {
   background: var(--secondary-no-gr);
 }
 

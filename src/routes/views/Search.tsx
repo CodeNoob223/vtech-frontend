@@ -11,7 +11,9 @@ import { useSearchParams } from "react-router-dom";
 export default function SearchPage() {
     const [searchParams] = useSearchParams();;
     const user = useAppSelector(state => state.userData);
-    const [search, setSearch] = useState<string>("");
+    const [search, setSearch] = useState<string>(
+        searchParams.get("title") || ""
+    );
     const [searchResult, setSearchResult] = useState<Blog[]>([]);
     const [searchCat, setSearchCat] = useState<SearchResult<Category>>({
         isFocus: false,
