@@ -33,7 +33,7 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
   }
   if (user._id) {
     return (
-      <header className="sticky bg-black z-50 top-0 grid grid-cols-5 px-[24px] mx-auto gap-4 h-15 items-center">
+      <header className="sticky bg-black z-50 top-0 grid grid-cols-5 max-[723px]:grid-cols-4 max-[590px]:grid-cols-3 max-[400px]:grid-cols-2 px-[24px] mx-auto gap-4 h-15 items-center">
         <section className="flex gap-2 items-center">
           {
             user.notifications.length > 0 ?
@@ -71,12 +71,12 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
             myStyles="h-max w-max"
           />
         </section>
-        <section className="flex flex-col w-[90%] max-w-[600px] mx-auto col-span-3 relative">
+        <section className="flex flex-col max-[723px]:col-span-2 w-[90%] max-w-[600px] max-[694px]:hidden mx-auto col-span-3 relative focus-within:text-slate-950">
           <input
             name="search"
             autoComplete="off"
             type="text"
-            className="block w-full bg-black text-slate-500 focus:text-slate-950 opacity-50 focus:opacity-100 focus:bg-slate-50 focus:border-none border-[3px] border-solid border-slate-500 h-[40px] font-sm rounded-md pl-2 pr-6"
+            className="block w-full bg-black text-slate-500 focus:text-slate-950 focus:opacity-100 focus:bg-slate-50 focus:border-none border-b-[3px] border-solid border-b-slate-500 h-[40px] font-sm focus:rounded-md transition-all duration-300 pl-2 pr-6"
             placeholder="Search for a blog"
             onChange={(e) => {
               setSearchString(e.target.value);
@@ -96,7 +96,11 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
               }
             }}
           />
-          <span className="icon-Search absolute right-2 top-[7px] text-2xl text-slate-500 cursor-pointer"></span>
+          <span className="icon-Search absolute right-2 top-[7px] text-2xl cursor-pointer text-slate-500"
+            onClick={() => {
+              navigate(`/search?title=${searchString}`)
+            }}
+          ></span>
           <div className={`absolute h-max w-full max-h-[120px] lg:max-h-[320px] top-[40px] left-0 rounded-sm overflow-y-scroll z-10 cursor-pointer ${!searchResult.isFocus && "hidden"}`}>
             {searchResult.results.map((result) => {
               return (
@@ -108,8 +112,17 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
             })}
           </div>
         </section>
-        <section className="flex gap-2 items-center">
-          <div className="ml-auto w-max h-max">
+        <section className="flex gap-2 items-center max-[694px]:col-start-4 max-[590px]:col-start-3 max-[400px]:col-start-2">
+          <div className="block min-[694px]:hidden ml-auto w-max h-max">
+            <ButtonLink
+              to={`/search?title=${searchString}`}
+              content=""
+              icon="icon-Search hover:text-primary"
+              iconPos="none"
+              myStyles="flex"
+            />
+          </div>
+          <div className="min-[694px]:ml-auto w-max h-max">
             <ButtonLink
               to="/write"
               content=""
@@ -123,7 +136,7 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
     );
   } else {
     return (
-      <header className="sticky bg-black z-50 top-0 grid grid-cols-5 px-[24px] mx-auto gap-4 h-15 items-center">
+      <header className="sticky bg-black z-50 top-0 grid grid-cols-5 max-[723px]:grid-cols-4 max-[590px]:grid-cols-3 max-[400px]:grid-cols-2 px-[24px] mx-auto gap-4 h-15 items-center">
         <section className="flex gap-2 items-center">
           <Button
             content=""
@@ -142,12 +155,12 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
             myStyles="h-max w-max"
           />
         </section>
-        <section className="flex flex-col w-[90%] max-w-[600px] mx-auto col-span-3 relative">
+        <section className="flex flex-col max-[723px]:col-span-2 w-[90%] max-w-[600px] max-[694px]:hidden mx-auto col-span-3 relative focus-within:text-slate-950">
           <input
             name="search"
             autoComplete="off"
             type="text"
-            className="block w-full bg-black text-slate-500 focus:text-slate-950 opacity-50 focus:opacity-100 focus:bg-slate-50 focus:border-none border-[3px] border-solid border-slate-500 h-[40px] font-sm rounded-md pl-2 pr-6"
+            className="block w-full bg-black text-slate-500 focus:text-slate-950 focus:opacity-100 focus:bg-slate-50 focus:border-none border-b-[3px] border-solid border-b-slate-500 h-[40px] font-sm focus:rounded-md transition-all duration-300 pl-2 pr-6"
             placeholder="Search for a blog"
             onChange={(e) => {
               setSearchString(e.target.value);
@@ -167,7 +180,11 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
               }
             }}
           />
-          <span className="icon-Search absolute right-2 top-[7px] text-2xl text-slate-500 cursor-pointer"></span>
+          <span className="icon-Search absolute right-2 top-[7px] text-2xl cursor-pointer text-slate-500"
+            onClick={() => {
+              navigate(`/search?title=${searchString}`)
+            }}
+          ></span>
           <div className={`absolute h-max w-full max-h-[120px] lg:max-h-[320px] top-[40px] left-0 rounded-sm overflow-y-scroll z-10 cursor-pointer ${!searchResult.isFocus && "hidden"}`}>
             {searchResult.results.map((result) => {
               return (
@@ -179,8 +196,8 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
             })}
           </div>
         </section>
-        <section className="flex gap-2 items-center">
-          <div className="hidden sm:block ml-auto w-max h-max">
+        <section className="flex gap-2 items-center max-[694px]:col-start-4 max-[590px]:col-start-3 max-[400px]:col-start-2">
+          <div className="hidden md:block ml-auto w-max h-max">
             <ButtonLink
               to="/login"
               content=""
@@ -189,12 +206,17 @@ export default function Header({ openSideBar }: BlogAppHeader): JSX.Element {
               myStyles="flex"
             />
           </div>
-          <a href="/login" className="bg-primary-no-gr p-[3px] rounded-md">
-            <div className="bg-black hover:bg-primary-no-gr transition-all duration-300 rounded">
-              <p className="px-3 py-1 text-primary-no-gr font-bold hover:text-white">
-                Sign in
-              </p>
-            </div>
+          <div className="block min-[694px]:hidden ml-auto w-max h-max">
+            <ButtonLink
+              to={`/search?title=${searchString}`}
+              content=""
+              icon="icon-Search hover:text-primary"
+              iconPos="none"
+              myStyles="flex"
+            />
+          </div>
+          <a href="/login" className="bg-primary py-[6px] ml-auto md:ml-0 px-4 font-bold text-white rounded-full whitespace-nowrap shrink-0">
+            Sign in
           </a>
         </section>
       </header>
