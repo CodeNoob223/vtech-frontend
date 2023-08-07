@@ -50,12 +50,14 @@ export default function Blog() {
 
     const accessToken = await getToken("access");
 
-    await postRequest(`${localhostIP}/api/comment/${blogData._id}`, accessToken || "", {
+    const res = await postRequest(`${localhostIP}/api/comment/${blogData._id}`, accessToken || "", {
       blogAuthor: blogData.author._id,
       content: userComment.current,
       createAt: formatDate(new Date())
     });
-    navigate(0);
+    if (res.success) {
+      navigate(0);
+    }
   }
 
   const deleteComment = async (id: string) => {
