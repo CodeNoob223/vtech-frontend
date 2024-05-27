@@ -9,7 +9,7 @@ import { getRequest, postRequest } from "../../helpers/fetchData";
 import { useSearchParams } from "react-router-dom";
 
 export default function SearchPage() {
-    const [searchParams] = useSearchParams();;
+    const [searchParams] = useSearchParams();
     const user = useAppSelector(state => state.userData);
     const [search, setSearch] = useState<string>(
         searchParams.get("title") || ""

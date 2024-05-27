@@ -18,3 +18,6 @@
 - Create and delete comments.
 - Realtime notifications.
 - Search, sorting blogs.
+
+## ./src/Socket.ts
+```const localhostIP = "http://localhost:backendport";```
