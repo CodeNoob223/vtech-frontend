@@ -1,40 +1,35 @@
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-  redirect
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, redirect, RouterProvider } from "react-router-dom";
 
+import { useAppDispatch, useAppSelector } from "./app/hook";
+import { RootState } from "./app/store";
+import NotificationContainer from "./components/NotificationsContainer";
+import { updateData, updateUserNotification } from "./features/userData/userSlice";
+import { getRequest } from "./helpers/fetchData";
+import getToken from "./helpers/getLocalStorage";
+import ErrorPage from "./routes/errorPage";
+import Root from "./routes/root";
+import Blog from "./routes/views/Blog";
+import BookmarkedBlog from "./routes/views/Bookmarked";
+import Certified from "./routes/views/Certified";
+import CreateBlog from "./routes/views/CreateBlog";
+import EditBlog from "./routes/views/EditBlog";
+import Followed from "./routes/views/Followed";
+import Latests from "./routes/views/Latests";
 // import Login from "./routes/views/Login";
 
 import Login from "./routes/views/Login";
-import Register from "./routes/views/Register";
 import Main from "./routes/views/Main";
-import Root from "./routes/root";
-import ErrorPage from "./routes/errorPage";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
-import getToken from "./helpers/getLocalStorage";
-import SearchPage from "./routes/views/Search";
-import Blog from "./routes/views/Blog";
-import EditBlog from "./routes/views/EditBlog";
-import CreateBlog from "./routes/views/CreateBlog";
-import WrittenBlog from "./routes/views/WrittenBlog";
-import Profile from "./routes/views/Profile";
-import NotificationList from "./routes/views/Notification";
-import { socket } from "./Socket";
-import { updateData, updateUserNotification } from "./features/userData/userSlice";
-import { RootState } from "./app/store";
-import { useAppDispatch, useAppSelector } from "./app/hook";
-import BookmarkedBlog from "./routes/views/Bookmarked";
-import Followed from "./routes/views/Followed";
 import MostLikes from "./routes/views/MostLikes";
 import MostViews from "./routes/views/MostViews";
-import Latests from "./routes/views/Latests";
-import Certified from "./routes/views/Certified";
-import NotificationContainer from "./components/NotificationsContainer";
-import { getRequest } from "./helpers/fetchData";
+import NotificationList from "./routes/views/Notification";
+import Profile from "./routes/views/Profile";
+import Register from "./routes/views/Register";
+import SearchPage from "./routes/views/Search";
+import WrittenBlog from "./routes/views/WrittenBlog";
+import { socket } from "./Socket";
 
 export const localhostIP = "https://vtech-api.onrender.com";
 // export const localhostIP = "http://localhost:3001";
@@ -125,7 +120,7 @@ export default function App() {
     }
   }
   useEffect(() => {
-    console.log("App.tsx called getuser api");
+    // console.log("App.tsx called getuser api");
     //user chua ton tai va phai co 1 token
     //VD1: khi refresh thi user = null, nhung token lai ton tai => da dang nhap => fetch
     //VD2: khi user = null, token cung khong ton tai => chua dang nhap => khong fetch
