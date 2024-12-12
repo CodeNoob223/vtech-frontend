@@ -20,7 +20,7 @@
     "react-simplemde-editor": "^5.2.0",
     "rehype-highlight": "^6.0.0",
     "remark-gfm": "^3.0.1",
-    "socket.io-client": "^4.6.2",
+    "socket.io-client": "^4.7.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
